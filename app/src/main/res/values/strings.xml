@@ -6,4 +6,21 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Category content in home fragment -->
+    <string name="deleteCategory">Delete Category</string>
+    <string name="changeCategroyTitle">Change Title</string>
+    <string name="addProduct">Add Product</string>
+    <!--Add product title-->
+    <string name="productName">Name:</string>
+    <string name="productPrice">Price:</string>
+    <string name="productAmount">Quantity:</string>
+   <!--Delete confirm Dialog-->
+    <string name="confirmTitle">Delete product forever?</string>
+    <string name="confirmYes">Delete</string>
+    <string name="confirmNo">Cancel</string>
+
 </resources>
