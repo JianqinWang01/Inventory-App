@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,22 +23,15 @@ import com.example.wjqcau.inventory.JavaBean.ProductCategory;
 import java.util.ArrayList;
 
 public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProductAdapter.CategoryProductViewHolder> {
-    Dialog editCateDialog;
-    Dialog updateCateDialog;
-    ImageView closeUpdateDialogImage;
-    Button updateCateButton;
-    EditText newCateTitle;
+    private static int productRecyclerViewHeight;
+    private static int countIndex=0;
+    public static int categoryId=-100;
 
-    ImageView closeImage;
-    TextView deletCateChoice;
-    TextView updateCateChoice;
-    TextView addProductChoice;
-    int categoryId;
-    //This variable used in the inner event method
-    ProductCategory prodCategory;
     FragmentManager fm;
     Context context;
     ArrayList<ProductCategory> prodCategoryList =new ArrayList<>();
+
+
     public CategoryProductAdapter(Context context, ArrayList<ProductCategory> prodCategoryList){
        this.context=context;
        this.prodCategoryList=prodCategoryList;
@@ -45,28 +39,18 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
 
     @NonNull
     @Override
-    public CategoryProductViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public CategoryProductAdapter.CategoryProductViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.category_product_list,viewGroup,false);
-        CategoryProductViewHolder viewHolder=new CategoryProductViewHolder(view);
-           editCateDialog=new Dialog(context);
+        final CategoryProductViewHolder viewHolder=new CategoryProductViewHolder(view);
+
+  /*************************************************************************************************
+  *  +++++++++++++++++++++++++ Edit dialog and its's event+++++++++++++++++++++++++++++++++++++
+  * *************************************************************************************************/
+
+      final   Dialog  editCateDialog=new Dialog(context);
         editCateDialog.setContentView(R.layout.editcategory);
         editCateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        //Update category title dialog
-        updateCateDialog=new Dialog(context);
-        updateCateDialog.setContentView(R.layout.updatecategory);
-        updateCateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        closeUpdateDialogImage=updateCateDialog.findViewById(R.id.close_update_category);
-        updateCateButton=updateCateDialog.findViewById(R.id.update_category_button);
-        newCateTitle=updateCateDialog.findViewById(R.id.update_titleInput);
-
-
-
-        //Main category dialog
-        deletCateChoice=editCateDialog.findViewById(R.id.deleteCategory);
-        updateCateChoice=editCateDialog.findViewById(R.id.changeCategoryTitle);
-        addProductChoice=editCateDialog.findViewById(R.id.addProduct);
-        closeImage=editCateDialog.findViewById(R.id.close_add_category);
+      ImageView  closeImage=editCateDialog.findViewById(R.id.close_add_category);
 
         closeImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,70 +59,53 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
             }
         });
 
-        return viewHolder;
-    }
 
-    @Override
-    public void onBindViewHolder(@NonNull final CategoryProductViewHolder categoryProductViewHolder, int i) {
-     prodCategory=prodCategoryList.get(i);
-     ArrayList productList=prodCategory.getProductList();
-     categoryProductViewHolder.cateTitle.setText(prodCategory.getTitle());
-   ProductItemAdapter adapter= new ProductItemAdapter(context,productList);
-
-     categoryProductViewHolder.recyclerView.setHasFixedSize(true);
-     categoryProductViewHolder.recyclerView.setAdapter(adapter);
-     categoryProductViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,
-             false));
-
-
-     //Set the shevel
-      categoryProductViewHolder.chevel.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              //categoryProductViewHolder.recyclerView.removeItemDecorationAt(
-                //      categoryProductViewHolder.getAdapterPosition());
-              notifyItemRemoved(categoryProductViewHolder.getAdapterPosition());
-          }
-      });
+        //Main category dialog
+      TextView  deletCateChoice=editCateDialog.findViewById(R.id.deleteCategory);
+      TextView  updateCateChoice=editCateDialog.findViewById(R.id.changeCategoryTitle);
+      TextView  addProductChoice=editCateDialog.findViewById(R.id.addProduct);
 
         /*******************************************************************************************
          *  Show the edit dialog
          ********************************************************************************************/
-     categoryProductViewHolder.edit.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-            // Toast.makeText(context,"you click me",Toast.LENGTH_SHORT);
-             editCateDialog.show();
-         }
-     });
+        viewHolder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Toast.makeText(context,"you click me",Toast.LENGTH_SHORT);
+                editCateDialog.show();
+            }
+        });
+
+
+
 
         /*******************************************************************************************
-         *  Add product jump to other add fragment
+         * (1)In EditDialog Add product jump to other add fragment
          ********************************************************************************************/
 
-     addProductChoice.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             //This id will be used in AddProductFragment
-             categoryId=prodCategory.getId();
-             //Swith to add product fragment
-             HomeFragment.transaction=HomeFragment.fm.beginTransaction();
-             HomeFragment.transaction.addToBackStack(null);
-             HomeFragment.transaction.replace(R.id.content,new AddProductFragment());
-             HomeFragment.transaction.commit();
-             editCateDialog.dismiss();
-         }
-     });
+        addProductChoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //This id will be used in AddProductFragment
+               categoryId=prodCategoryList.get(viewHolder.getAdapterPosition()).getId();
+                //Swith to add product fragment
+                HomeFragment.transaction=HomeFragment.fm.beginTransaction();
+                HomeFragment.transaction.addToBackStack(null);
+                HomeFragment.transaction.replace(R.id.content,new AddProductFragment());
+                HomeFragment.transaction.commit();
+                editCateDialog.dismiss();
+            }
+        });
         /*******************************************************************************************
-         *  Delete Category
+         * (2)In EditDialog Delete Category
          ********************************************************************************************/
         deletCateChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-          DatabaseHandler db=new DatabaseHandler(context);
-          db.deleteCategory(prodCategory);
-          db.close();
-          editCateDialog.dismiss();
+                DatabaseHandler db=new DatabaseHandler(context);
+                db.deleteCategory(prodCategoryList.get(viewHolder.getAdapterPosition()));
+                db.close();
+                editCateDialog.dismiss();
                 HomeFragment.transaction=HomeFragment.fm.beginTransaction();
                 HomeFragment.transaction.addToBackStack(null);
                 HomeFragment.transaction.replace(R.id.content,new HomeFragment());
@@ -146,42 +113,103 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
 
             }
         });
-
+         //Define update dialog then, show update when click on update choice
+          final Dialog  updateCateDialog=new Dialog(context);
+          updateCateDialog.setContentView(R.layout.updatecategory);
+           updateCateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+          ImageView closeUpdateDialogImage=updateCateDialog.findViewById(R.id.close_update_category);
+          Button  updateCateButton=updateCateDialog.findViewById(R.id.update_category_button);
+          final  EditText newCateTitle=updateCateDialog.findViewById(R.id.update_titleInput);
 
         /*******************************************************************************************
-         * Show Update  Category Dialogu
+         * (3) In EditDialog Show Update  Category Dialog
          ********************************************************************************************/
         updateCateChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-             updateCateDialog.show();
-             newCateTitle.setText(prodCategory.getTitle());
-             editCateDialog.dismiss();
+                System.out.println("CurrentCateId"+prodCategoryList.get(viewHolder.getAdapterPosition()).getId());
+                updateCateDialog.show();
+                newCateTitle.setText(prodCategoryList.get(viewHolder.getAdapterPosition()).getTitle());
+                editCateDialog.dismiss();
             }
         });
+
+
+
+
+        /*************************************************************************************************
+         *  ++++++++++++++After (3), The UpdateCateDialog shows, this dialog and its's event+++++++++
+         * *************************************************************************************************/
+        //Update category title dialog
+
+
         closeUpdateDialogImage.setOnClickListener(new View.OnClickListener() {
             @Override
+            public void onClick(View v) { updateCateDialog.dismiss(); }
+        });
+
+
+        updateCateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
+                System.out.println("CurrentCateId"+prodCategoryList.get(viewHolder.getAdapterPosition()).getId());
+                DatabaseHandler db=new DatabaseHandler(context);
+                db.updateCategoryTitle(newCateTitle.getText().toString(),prodCategoryList.get(viewHolder.getAdapterPosition()).getId());
+
+                db.close();
                 updateCateDialog.dismiss();
+                HomeFragment.transaction=HomeFragment.fm.beginTransaction();
+                HomeFragment.transaction.addToBackStack(null);
+                HomeFragment.transaction.replace(R.id.content,new HomeFragment());
+                HomeFragment.transaction.commit();
+
+
             }
         });
 
-       updateCateButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               DatabaseHandler db=new DatabaseHandler(context);
-               db.updateCategoryTitle(newCateTitle.getText().toString(),prodCategory);
-               db.close();
-               updateCateDialog.dismiss();
-               HomeFragment.transaction=HomeFragment.fm.beginTransaction();
-               HomeFragment.transaction.addToBackStack(null);
-               HomeFragment.transaction.replace(R.id.content,new HomeFragment());
-               HomeFragment.transaction.commit();
+        //Set the shevel
+        viewHolder.chevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             if(countIndex==0){
+                 productRecyclerViewHeight=viewHolder.recyclerView.getHeight();
+                 countIndex++;
+             }
+           //  System.out.println("Heightnew:"+viewHolder.recyclerView.getHeight());
 
 
-           }
-       });
+                if(viewHolder.recyclerView.getLayoutParams().height>50){
+                    viewHolder.recyclerView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 0));
+                    notifyItemChanged(viewHolder.getAdapterPosition());
+                }else{
+                    viewHolder.recyclerView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, productRecyclerViewHeight));
+                    notifyItemChanged(viewHolder.getAdapterPosition());
+                }
+
+
+            }
+        });
+
+
+
+
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final CategoryProductViewHolder categoryProductViewHolder, int i) {
+     ProductCategory  prodCategory=prodCategoryList.get(i);
+     ArrayList productList=prodCategory.getProductList();
+     categoryProductViewHolder.cateTitle.setText(prodCategory.getTitle());
+
+     ProductItemAdapter adapter= new ProductItemAdapter(context,productList);
+
+     categoryProductViewHolder.recyclerView.setHasFixedSize(true);
+     categoryProductViewHolder.recyclerView.setAdapter(adapter);
+     categoryProductViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,
+             false));
+
 
     }
 

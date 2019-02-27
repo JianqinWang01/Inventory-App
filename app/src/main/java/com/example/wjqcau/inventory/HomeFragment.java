@@ -92,23 +92,24 @@ public class HomeFragment extends Fragment {
         addCateDialog.setContentView(R.layout.addcategory);
         addCateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         fm=getFragmentManager();
-        //Initailize Edite dialog
-    //   editCateDialog=new Dialog(getContext());
-//        editCateDialog.setContentView(R.layout.editcategory);
-//        editCateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        MainActivity.addCategoryImage.setVisibility(View.VISIBLE);
         // Inflate the layout for this fragment
        View view=inflater.inflate(R.layout.fragment_home, container, false);
         final RecyclerView recyclerViewCatetory=view.findViewById(R.id.category_item_recycleView);
          getCategoriesFromDB();
-        for (ProductCategory category:categories) {
-          System.out.println("IDS:"+category.getId()+" title"+category.getTitle());
-        }
+
+//        for (ProductCategory category:categories) {
+//          System.out.println("IDS:"+category.getId()+" title"+category.getTitle());
+//           for(Product product:category.getProductList()){
+//               System.out.println("ProdId:"+product.getId()+" productPrice:"+product.getPrice()+" cateId:"+product.getCategoryID());
+//           }
+//        }
          adapter=new CategoryProductAdapter(getContext(),categories);
         recyclerViewCatetory.setAdapter(adapter);
         recyclerViewCatetory.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
