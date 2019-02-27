@@ -82,7 +82,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addProduct(Product product){
         SQLiteDatabase db=getWritableDatabase();
         ContentValues values=new ContentValues();
-        values.put(COLUMN_ID,product.getId());
+       // values.put(COLUMN_ID,product.getId());
         values.put(COLUMN_PROD_NAME,product.getName());
         values.put(COLUMN_PROD_PRICE,product.getPrice());
         values.put(COLUMN_PROD_AMOUNT,product.getAmount());
@@ -128,12 +128,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
    public ArrayList<ProductCategory> getAllCategories(){
       ArrayList<ProductCategory> categories=new ArrayList<>();
       SQLiteDatabase db=getReadableDatabase();
+
       Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE_CATEGORY,null);
-       ArrayList<Product> products=new ArrayList<>();
+       ArrayList<Product> products;
       if(cursor.moveToFirst()){
 
           do{
               products=getProuductsInCategory(Integer.parseInt(cursor.getString(0)));
+
+
               categories.add(new ProductCategory(Integer.parseInt(cursor.getString(0)),
                       cursor.getString(1),products));
 
@@ -143,7 +146,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
       }
 
       db.close();
+//       for (ProductCategory category:categories) {
+//           if(category.getProductList().size()>0){
+//           System.out.println("CateId:"+category.getId()+
+//                   " price1"+category.getProductList().get(0).getPrice()+
+//                   " price2"+category.getProductList().get(1).getPrice());
+//
+//
+//       }}
       return categories;
+
    }
 
 
@@ -185,6 +197,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public ArrayList<Product> getProuductsInCategory(int categoryId){
         ArrayList<Product> products=new ArrayList<>();
         SQLiteDatabase db=getReadableDatabase();
+
         Cursor cursor=db.query(TABLE_PRODUCT,new String[]{COLUMN_ID,COLUMN_PROD_NAME,COLUMN_PROD_PRICE,
                            COLUMN_PROD_AMOUNT,COLUMN_PROD_IMAGE,COLUMN_CATE_ID},COLUMN_CATE_ID+"=?",
                 new String[]{String.valueOf(categoryId)},null,null,null);
@@ -192,12 +205,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             do{
                 products.add(new Product(Integer.parseInt(cursor.getString(0)),
-                        cursor.getColumnName(1),
-                        cursor.getColumnName(2),
-                        cursor.getColumnName(3),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
                         Integer.parseInt(cursor.getString(4)),
                         Integer.parseInt(cursor.getString(5))));
-
 
 
             }while (cursor.moveToNext());
@@ -205,6 +217,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         db.close();
+
 
       return products;
     }
@@ -215,15 +228,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     /**
      *
      * @param newTitle The new value will be updated
-     * @param category  the category object will be updated
+     * @param CategoryId  the category object will be updated
      */
-  public void updateCategoryTitle(String newTitle,ProductCategory category){
+  public void updateCategoryTitle(String newTitle,int CategoryId){
         SQLiteDatabase db=getWritableDatabase();
        // String upDate="UPDATE "+TABLE_CATEGORY+" SET "+COLUMN_CATE_TITLE+"="+newTitle;
        ContentValues values=new ContentValues();
        values.put(COLUMN_CATE_TITLE,newTitle);
        db.update(TABLE_CATEGORY,values,COLUMN_ID+"=?",
-               new String[]{String.valueOf(category.getId())});
+               new String[]{String.valueOf(CategoryId)});
 
 
         db.close();

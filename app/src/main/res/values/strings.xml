@@ -14,5 +14,13 @@
     <string name="deleteCategory">Delete Category</string>
     <string name="changeCategroyTitle">Change Title</string>
     <string name="addProduct">Add Product</string>
+    <!--Add product title-->
+    <string name="productName">Name:</string>
+    <string name="productPrice">Price:</string>
+    <string name="productAmount">Quantity:</string>
+   <!--Delete confirm Dialog-->
+    <string name="confirmTitle">Delete product forever?</string>
+    <string name="confirmYes">Delete</string>
+    <string name="confirmNo">Cancel</string>
 
 </resources>
