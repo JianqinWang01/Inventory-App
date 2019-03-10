@@ -21,12 +21,14 @@
         android:layout_marginRight="20dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="70dp"
+        android:id="@+id/addProductImage"
         />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Take Photo"
             android:layout_gravity="bottom"
+            android:id="@+id/takePhotoButton"
             />
   </LinearLayout>
     <GridLayout

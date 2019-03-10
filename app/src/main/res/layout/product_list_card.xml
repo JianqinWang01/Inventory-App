@@ -17,9 +17,9 @@
         <ImageView
             android:id="@+id/productIamge"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:src="@android:drawable/btn_star_big_on" />
 
         <TextView

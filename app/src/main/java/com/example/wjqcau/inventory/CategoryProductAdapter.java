@@ -106,6 +106,7 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
                 db.deleteCategory(prodCategoryList.get(viewHolder.getAdapterPosition()));
                 db.close();
                 editCateDialog.dismiss();
+                //need to fix
                 HomeFragment.transaction=HomeFragment.fm.beginTransaction();
                 HomeFragment.transaction.addToBackStack(null);
                 HomeFragment.transaction.replace(R.id.content,new HomeFragment());
@@ -127,7 +128,6 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
         updateCateChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("CurrentCateId"+prodCategoryList.get(viewHolder.getAdapterPosition()).getId());
                 updateCateDialog.show();
                 newCateTitle.setText(prodCategoryList.get(viewHolder.getAdapterPosition()).getTitle());
                 editCateDialog.dismiss();

@@ -30,7 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //Product table column
     public static final String COLUMN_PROD_NAME="product_name";
     public static final String COLUMN_PROD_PRICE="product_price";
-    public static final String COLUMN_PROD_IMAGE="product_image";
+    public static final String COLUMN_PROD_IMAGE_URL="product_image_url";
     public static final String COLUMN_PROD_AMOUNT="product_amount";
     public static final String COLUMN_CATE_ID="prod_cate_id";
 
@@ -43,7 +43,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String CREATE_PRODUCT_TABLE="CREATE TABLE "+TABLE_PRODUCT+"("+
             COLUMN_ID+" INTEGER PRIMARY KEY,"+COLUMN_PROD_NAME+" TEXT,"+
             COLUMN_PROD_PRICE+" TEXT,"+COLUMN_PROD_AMOUNT+" TEXT,"+
-            COLUMN_PROD_IMAGE+" INTEGER,"+COLUMN_CATE_ID+
+            COLUMN_PROD_IMAGE_URL+" TEXT,"+COLUMN_CATE_ID+
             " INTEGER REFERENCES "+TABLE_CATEGORY+
             "("+COLUMN_ID+") ON DELETE CASCADE)";
 
@@ -86,7 +86,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(COLUMN_PROD_NAME,product.getName());
         values.put(COLUMN_PROD_PRICE,product.getPrice());
         values.put(COLUMN_PROD_AMOUNT,product.getAmount());
-        values.put(COLUMN_PROD_IMAGE,product.getProdImage());
+        values.put(COLUMN_PROD_IMAGE_URL,product.getImageUrl());
         values.put(COLUMN_CATE_ID,product.getCategoryID());
         db.insert(TABLE_PRODUCT,null,values);
         db.close();
@@ -169,7 +169,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
       Product product=null;
       SQLiteDatabase db=getReadableDatabase();
       Cursor cursor=db.query(TABLE_PRODUCT,new String[]{COLUMN_ID,COLUMN_PROD_NAME,
-      COLUMN_PROD_PRICE,COLUMN_PROD_AMOUNT,COLUMN_PROD_IMAGE,COLUMN_CATE_ID},COLUMN_ID+"=?",
+      COLUMN_PROD_PRICE,COLUMN_PROD_AMOUNT,COLUMN_PROD_IMAGE_URL,COLUMN_CATE_ID},COLUMN_ID+"=?",
               new String[]{String.valueOf(id)},null,null,null);
       if(cursor.moveToFirst()){
 
@@ -177,7 +177,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                               cursor.getColumnName(1),
                               cursor.getColumnName(2),
                               cursor.getColumnName(3),
-                              Integer.parseInt(cursor.getString(4)),
+                              cursor.getString(4),
                               Integer.parseInt(cursor.getString(5))
 
                   );
@@ -199,7 +199,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db=getReadableDatabase();
 
         Cursor cursor=db.query(TABLE_PRODUCT,new String[]{COLUMN_ID,COLUMN_PROD_NAME,COLUMN_PROD_PRICE,
-                           COLUMN_PROD_AMOUNT,COLUMN_PROD_IMAGE,COLUMN_CATE_ID},COLUMN_CATE_ID+"=?",
+                           COLUMN_PROD_AMOUNT,COLUMN_PROD_IMAGE_URL,COLUMN_CATE_ID},COLUMN_CATE_ID+"=?",
                 new String[]{String.valueOf(categoryId)},null,null,null);
         if(cursor.moveToFirst()){
 
@@ -208,7 +208,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getString(3),
-                        Integer.parseInt(cursor.getString(4)),
+                        cursor.getString(4),
                         Integer.parseInt(cursor.getString(5))));
 
 
@@ -221,6 +221,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
       return products;
     }
+
+    //Grab the max id in product
+    public int getProductMaxId(){
+        int id=0;
+        SQLiteDatabase db=getReadableDatabase();
+        String query="SELECT id FROM "+TABLE_PRODUCT+" ORDER BY id DESC LIMIT 1";
+        Cursor cursor=db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            id=Integer.parseInt(cursor.getString(0));
+        }
+     return id;
+    }
+
+
 
     /***************************************************************************************
      *                            Update
@@ -242,8 +256,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
 
   }
-
-  public void updateProduct(String name,String price,String amount,int imageResource,Product product){
+//do not update image url while update image
+  public void updateProduct(String name,String price,String amount,Product product){
       SQLiteDatabase db=this.getWritableDatabase();
       ContentValues values=new ContentValues();
       if((name!=null)&&(name!=" ")&&(name!=""))
@@ -252,8 +266,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
       {values.put(COLUMN_PROD_PRICE,price);}
       if((amount!=null)&&(amount!="")&&(amount!=" "))
       {values.put(COLUMN_PROD_AMOUNT,amount);}
-      if(imageResource!=0)
-      {values.put(COLUMN_PROD_IMAGE,imageResource);}
+
+
       db.update(TABLE_PRODUCT,values,COLUMN_ID+"=?",
               new String[]{String.valueOf(product.getId())});
       db.close();
@@ -268,7 +282,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
          db.delete(TABLE_PRODUCT,COLUMN_ID+"=?",new String[]{String.valueOf(product.getId())});
          db.close();
      }
-
+//delete all the products in a category
      public void deleteProductInCategory(int cateId){
          SQLiteDatabase db=this.getWritableDatabase();
          db.delete(TABLE_PRODUCT,COLUMN_CATE_ID+"=?",new String[]{String.valueOf(cateId)});
