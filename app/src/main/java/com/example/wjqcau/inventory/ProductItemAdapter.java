@@ -19,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wjqcau.inventory.JavaBean.Product;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -96,7 +99,13 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
       Product product=prodList.get(i);
       productItemViewHolder.prodName.setText(product.getName());
       productItemViewHolder.prodPrice.setText(product.getPrice());
-      productItemViewHolder.prodImage.setImageResource(product.getProdImage());
+      //*****************need picasso
+//        Picasso.with(context)
+//                .load("https://jwang.scweb.ca/PhotoServer/images/mytest.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).
+//                networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.chicken).
+//                into(productItemViewHolder.prodImage);
+        Picasso.with(context).load(product.getImageUrl()).into(productItemViewHolder.prodImage);
+       // productItemViewHolder.prodImage.setImageResource(product.getProdImage());
       productItemViewHolder.prodAmount.setText(product.getAmount());
 
     }
@@ -126,14 +135,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             deleteProductImage=itemView.findViewById(R.id.deleteProduct);
             updateProductImage=itemView.findViewById(R.id.updateProduct);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    Toast.makeText(v.getContext(),"You make me painful!",Toast.LENGTH_SHORT).show();
-
-                }
-            });
 
         }
 

@@ -6,13 +6,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.wjqcau.inventory.JavaBean.Product;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -81,11 +86,33 @@ public class AddProductFragment extends Fragment {
         priceInput=view.findViewById(R.id.addproductPriceInput);
          amountInput=view.findViewById(R.id.addproductAmountInput);
         nameInput=view.findViewById(R.id.addproductNameInput);
+
+        final ImageView showProductImage=view.findViewById(R.id.addProductImage);
+        showProductImage.setImageResource(R.drawable.camera);
+
+        Button takePhotoButton=view.findViewById(R.id.takePhotoButton);
+        takePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+//
+//                Log.d("ShowProduct","Done");
+                Picasso.with(getContext())
+                        .load("https://jwang.scweb.ca/PhotoServer/images/mytest.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).
+                        networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.chicken).
+                        into(showProductImage);
+            }
+        });
+
+
+
         addProductButtton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Product product=new Product(nameInput.getText().toString(),priceInput.getText().toString(),
-                        amountInput.getText().toString(),R.drawable.chicken,CategoryProductAdapter.categoryId);
+                        amountInput.getText().toString(),"https://jwang.scweb.ca/PhotoServer/images/mytest.jpg",CategoryProductAdapter.categoryId);
 
                DatabaseHandler db=new DatabaseHandler(getContext());
                db.addProduct(product);
@@ -128,13 +155,7 @@ public class AddProductFragment extends Fragment {
 
     /**
      * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+         * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

@@ -5,8 +5,9 @@ public class Product {
     int categoryID;
     String name;
     String price;
-    int prodImage;
+    //int prodImage;
     String amount;
+    String imageUrl;
 
     public String getAmount() {
         return amount;
@@ -17,27 +18,27 @@ public class Product {
     }
 
     public Product(){}
-    public Product(String name,String price,String amount,int prodImage,int cateoryId){
+    public Product(String name,String price,String amount,String imageUrl,int cateoryId){
         this.name = name;
         this.price = price;
-        this.prodImage = prodImage;
+        this.imageUrl = imageUrl;
         this.amount=amount;
         this.categoryID=cateoryId;
     }
 
-    public Product(String name, String price, String amount,int prodImage) {
+    public Product(String name, String price, String amount,String imageUrl) {
 
         this.name = name;
         this.price = price;
-        this.prodImage = prodImage;
+        this.imageUrl = imageUrl;
         this.amount=amount;
     }
 
-    public Product(int id,String name, String price,String amount, int prodImage,int categoryID) {
+    public Product(int id,String name, String price,String amount, String imageUrl,int categoryID) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.prodImage = prodImage;
+        this.imageUrl = imageUrl;
         this.categoryID=categoryID;
         this.amount=amount;
     }
@@ -69,12 +70,12 @@ public class Product {
         this.price = price;
     }
 
-    public int getProdImage() {
-        return prodImage;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setProdImage(int prodImage) {
-        this.prodImage = prodImage;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public int getCategoryID() {

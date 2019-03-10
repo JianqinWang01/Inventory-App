@@ -147,21 +147,9 @@ public class HomeFragment extends Fragment {
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.content,new HomeFragment());
                 transaction.commit();
-
-
-
-
-               addCateDialog.dismiss();
+                addCateDialog.dismiss();
             }
         });
-
-
-
-
-
-
-
-
 
 
 
