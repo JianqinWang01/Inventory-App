@@ -61,7 +61,7 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
 
 
         //Main category dialog
-      TextView  deletCateChoice=editCateDialog.findViewById(R.id.deleteCategory);
+      final TextView  deletCateChoice=editCateDialog.findViewById(R.id.deleteCategory);
       TextView  updateCateChoice=editCateDialog.findViewById(R.id.changeCategoryTitle);
       TextView  addProductChoice=editCateDialog.findViewById(R.id.addProduct);
 
@@ -86,34 +86,62 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
         addProductChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//
                 //This id will be used in AddProductFragment
                categoryId=prodCategoryList.get(viewHolder.getAdapterPosition()).getId();
                 //Swith to add product fragment
                 HomeFragment.transaction=HomeFragment.fm.beginTransaction();
                 HomeFragment.transaction.addToBackStack(null);
-                HomeFragment.transaction.replace(R.id.content,new AddProductFragment());
+
+                HomeFragment.transaction.replace(R.id.content,MainActivity.addProductFragment);
                 HomeFragment.transaction.commit();
                 editCateDialog.dismiss();
             }
         });
         /*******************************************************************************************
-         * (2)In EditDialog Delete Category
+         * (2)In  Delete Category
          ********************************************************************************************/
+       //Reuse delete product dialog layout
+        final Dialog  deleteProdDialog=new Dialog(context);
+        deleteProdDialog.setContentView(R.layout.deleteconfirmlayout);
+        deleteProdDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        TextView deleteConfirm=(TextView)deleteProdDialog.findViewById(R.id.deleteProductYes);
+        TextView cancelConfirm=(TextView)deleteProdDialog.findViewById(R.id.deleteProductNo);
+
+
+
         deletCateChoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               deleteProdDialog.show();
+               editCateDialog.dismiss();
+
+
+            }
+        });
+        cancelConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                deleteProdDialog.dismiss();
+            }
+        });
+        deleteConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseHandler db=new DatabaseHandler(context);
                 db.deleteCategory(prodCategoryList.get(viewHolder.getAdapterPosition()));
                 db.close();
-                editCateDialog.dismiss();
+                deleteProdDialog.dismiss();
                 //need to fix
+              // HomeFragment.fm.popBackStack();
                 HomeFragment.transaction=HomeFragment.fm.beginTransaction();
                 HomeFragment.transaction.addToBackStack(null);
                 HomeFragment.transaction.replace(R.id.content,new HomeFragment());
                 HomeFragment.transaction.commit();
-
             }
         });
+
          //Define update dialog then, show update when click on update choice
           final Dialog  updateCateDialog=new Dialog(context);
           updateCateDialog.setContentView(R.layout.updatecategory);
