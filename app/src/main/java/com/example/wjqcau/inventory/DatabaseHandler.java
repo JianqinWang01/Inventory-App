@@ -32,7 +32,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String COLUMN_PROD_PRICE="product_price";
     public static final String COLUMN_PROD_IMAGE_URL="product_image_url";
     public static final String COLUMN_PROD_AMOUNT="product_amount";
+    public static final String COLUMN_PROD_UNIT="product_unit";
     public static final String COLUMN_CATE_ID="prod_cate_id";
+
 
     //CREATE  Categrory TABLE
    public static final String CREATE_CATEGORY_TABLE="CREATE TABLE "+TABLE_CATEGORY+"("+
@@ -43,7 +45,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String CREATE_PRODUCT_TABLE="CREATE TABLE "+TABLE_PRODUCT+"("+
             COLUMN_ID+" INTEGER PRIMARY KEY,"+COLUMN_PROD_NAME+" TEXT,"+
             COLUMN_PROD_PRICE+" TEXT,"+COLUMN_PROD_AMOUNT+" TEXT,"+
-            COLUMN_PROD_IMAGE_URL+" TEXT,"+COLUMN_CATE_ID+
+            COLUMN_PROD_IMAGE_URL+" TEXT,"+COLUMN_PROD_UNIT+" TEXT,"+COLUMN_CATE_ID+
             " INTEGER REFERENCES "+TABLE_CATEGORY+
             "("+COLUMN_ID+") ON DELETE CASCADE)";
 
@@ -87,6 +89,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(COLUMN_PROD_PRICE,product.getPrice());
         values.put(COLUMN_PROD_AMOUNT,product.getAmount());
         values.put(COLUMN_PROD_IMAGE_URL,product.getImageUrl());
+        values.put(COLUMN_PROD_UNIT,product.getUnit());
         values.put(COLUMN_CATE_ID,product.getCategoryID());
         db.insert(TABLE_PRODUCT,null,values);
         db.close();
@@ -169,7 +172,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
       Product product=null;
       SQLiteDatabase db=getReadableDatabase();
       Cursor cursor=db.query(TABLE_PRODUCT,new String[]{COLUMN_ID,COLUMN_PROD_NAME,
-      COLUMN_PROD_PRICE,COLUMN_PROD_AMOUNT,COLUMN_PROD_IMAGE_URL,COLUMN_CATE_ID},COLUMN_ID+"=?",
+      COLUMN_PROD_PRICE,COLUMN_PROD_AMOUNT,COLUMN_PROD_IMAGE_URL,COLUMN_PROD_UNIT,COLUMN_CATE_ID},COLUMN_ID+"=?",
               new String[]{String.valueOf(id)},null,null,null);
       if(cursor.moveToFirst()){
 
@@ -178,7 +181,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                               cursor.getColumnName(2),
                               cursor.getColumnName(3),
                               cursor.getString(4),
-                              Integer.parseInt(cursor.getString(5))
+                              cursor.getString(5),
+                              Integer.parseInt(cursor.getString(6))
 
                   );
       }
@@ -199,7 +203,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db=getReadableDatabase();
 
         Cursor cursor=db.query(TABLE_PRODUCT,new String[]{COLUMN_ID,COLUMN_PROD_NAME,COLUMN_PROD_PRICE,
-                           COLUMN_PROD_AMOUNT,COLUMN_PROD_IMAGE_URL,COLUMN_CATE_ID},COLUMN_CATE_ID+"=?",
+                           COLUMN_PROD_AMOUNT,COLUMN_PROD_IMAGE_URL,COLUMN_PROD_UNIT,COLUMN_CATE_ID},COLUMN_CATE_ID+"=?",
                 new String[]{String.valueOf(categoryId)},null,null,null);
         if(cursor.moveToFirst()){
 
@@ -209,7 +213,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         cursor.getString(2),
                         cursor.getString(3),
                         cursor.getString(4),
-                        Integer.parseInt(cursor.getString(5))));
+                        cursor.getString(5),
+                        Integer.parseInt(cursor.getString(6))));
 
 
             }while (cursor.moveToNext());
@@ -231,6 +236,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             id=Integer.parseInt(cursor.getString(0));
         }
+        db.close();
      return id;
     }
 
@@ -257,7 +263,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
   }
 //do not update image url while update image
-  public void updateProduct(String name,String price,String amount,Product product){
+  public void updateProduct(String name,String price,String amount,String unit,Product product){
       SQLiteDatabase db=this.getWritableDatabase();
       ContentValues values=new ContentValues();
       if((name!=null)&&(name!=" ")&&(name!=""))
@@ -266,6 +272,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
       {values.put(COLUMN_PROD_PRICE,price);}
       if((amount!=null)&&(amount!="")&&(amount!=" "))
       {values.put(COLUMN_PROD_AMOUNT,amount);}
+      values.put(COLUMN_PROD_UNIT,unit);
 
 
       db.update(TABLE_PRODUCT,values,COLUMN_ID+"=?",

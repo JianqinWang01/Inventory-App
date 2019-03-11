@@ -8,6 +8,7 @@ public class Product {
     //int prodImage;
     String amount;
     String imageUrl;
+    String unit;
 
     public String getAmount() {
         return amount;
@@ -18,29 +19,41 @@ public class Product {
     }
 
     public Product(){}
-    public Product(String name,String price,String amount,String imageUrl,int cateoryId){
+    public Product(String name,String price,String amount,String imageUrl,String unit,int cateoryId){
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
         this.amount=amount;
         this.categoryID=cateoryId;
+        this.unit=unit;
     }
 
-    public Product(String name, String price, String amount,String imageUrl) {
+    public Product(String name, String price, String amount,String imageUrl,String unit) {
 
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
         this.amount=amount;
+        this.unit=unit;
     }
 
-    public Product(int id,String name, String price,String amount, String imageUrl,int categoryID) {
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Product(int id, String name, String price, String amount, String imageUrl, String unit,int categoryID) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
         this.categoryID=categoryID;
         this.amount=amount;
+        this.unit=unit;
+
     }
 
 

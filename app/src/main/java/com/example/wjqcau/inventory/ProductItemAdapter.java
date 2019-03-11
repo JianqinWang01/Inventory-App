@@ -99,12 +99,16 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
       Product product=prodList.get(i);
       productItemViewHolder.prodName.setText(product.getName());
       productItemViewHolder.prodPrice.setText(product.getPrice());
+      productItemViewHolder.unitPrice.setText("/"+product.getUnit());
+     //After setting shared preference it will show
+      productItemViewHolder.currencySign.setText("$");
+      productItemViewHolder.unit.setText(product.getUnit());
       //*****************need picasso
-//        Picasso.with(context)
-//                .load("https://jwang.scweb.ca/PhotoServer/images/mytest.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).
-//                networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.chicken).
-//                into(productItemViewHolder.prodImage);
-        Picasso.with(context).load(product.getImageUrl()).into(productItemViewHolder.prodImage);
+        Picasso.with(context)
+                .load(product.getImageUrl()).memoryPolicy(MemoryPolicy.NO_CACHE).
+                networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.chicken).
+                into(productItemViewHolder.prodImage);
+       // Picasso.with(context).load(product.getImageUrl()).into(productItemViewHolder.prodImage);
        // productItemViewHolder.prodImage.setImageResource(product.getProdImage());
       productItemViewHolder.prodAmount.setText(product.getAmount());
 
@@ -124,6 +128,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
        TextView prodAmount;
        ImageView deleteProductImage;
        ImageView updateProductImage;
+       TextView currencySign;
+       TextView unitPrice;
+       TextView unit;
        //ImageButton prodEditBut;
 
         public ProductItemViewHolder(@NonNull View itemView) {
@@ -134,7 +141,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             prodAmount=itemView.findViewById(R.id.productQuantity);
             deleteProductImage=itemView.findViewById(R.id.deleteProduct);
             updateProductImage=itemView.findViewById(R.id.updateProduct);
-
+            currencySign=itemView.findViewById(R.id.currencySign);
+            unitPrice=itemView.findViewById(R.id.unitPrice);
+            unit=itemView.findViewById(R.id.unit);
 
 
         }

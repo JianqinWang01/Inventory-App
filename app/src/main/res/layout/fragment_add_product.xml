@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
     android:layout_width="match_parent"
@@ -31,10 +32,12 @@
             android:id="@+id/takePhotoButton"
             />
   </LinearLayout>
+
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="2" >
+        android:layout_marginRight="5dp"
+        android:columnCount="2">
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,11 +48,10 @@
             android:textStyle="bold" />
 
         <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/editCategoryTextSize"
-                android:id="@+id/addproductNameInput"
-            />
+            android:id="@+id/addproductNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/editCategoryTextSize" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,11 +62,11 @@
             android:textStyle="bold" />
 
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/addproductPriceInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/editCategoryTextSize"
-            android:id="@+id/addproductPriceInput"
-            />
+            android:inputType="numberDecimal"
+            android:textSize="@dimen/editCategoryTextSize" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -74,14 +76,35 @@
             android:textSize="@dimen/editCategoryTextSize"
             android:textStyle="bold" />
 
-        <android.support.design.widget.TextInputEditText
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/editCategoryTextSize"
-            android:id="@+id/addproductAmountInput"
-            />
+            android:orientation="horizontal">
 
 
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/addproductAmountInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
+                android:textSize="@dimen/editCategoryTextSize" />
+
+            <Spinner
+                android:id="@+id/seclectUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                app:srcCompat="@drawable/ic_arrow_drop_down_black_24dp" />
+
+        </LinearLayout>
 
 
     </GridLayout>

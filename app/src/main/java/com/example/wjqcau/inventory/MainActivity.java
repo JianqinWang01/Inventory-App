@@ -1,12 +1,15 @@
 package com.example.wjqcau.inventory;
 
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,11 +21,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         HomeFragment.OnFragmentInteractionListener,
-        AddProductFragment.OnFragmentInteractionListener{
+        AddProductFragment.OnFragmentInteractionListener,
+       UpdateProductFragment.OnFragmentInteractionListener{
     FragmentManager fm;
+   public static AddProductFragment addProductFragment;
     //Declare a globe for add category
    public static ImageView addCategoryImage;
     //declare the fabbutton with public static
@@ -63,6 +70,7 @@ public class MainActivity extends AppCompatActivity
         ab.setTitle("");
         addCategoryImage=(ImageView)toolbar.findViewById(R.id.addCategoryImage);
        // addCategoryImage.setVisibility(View.INVISIBLE);
+      addProductFragment=new AddProductFragment();
     }
 
     @Override
@@ -80,6 +88,7 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
        // mask the setting menu here
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
@@ -132,5 +141,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode){
+            case 666:
+                if(grantResults.length>0&&
+                        grantResults[0]==PackageManager.PERMISSION_GRANTED){
+
+                    if(addProductFragment!=null){
+                        Log.d("ExecuteNew:","goodMan");
+                        addProductFragment.ExecuteImageUpload();}
+                }else{
+
+                }
+
+
+
+
+                break;
+        }
     }
 }
