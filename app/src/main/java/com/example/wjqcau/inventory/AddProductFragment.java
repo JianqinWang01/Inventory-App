@@ -163,6 +163,7 @@ public class AddProductFragment extends Fragment {
             public void onClick(View v) {
                 DatabaseHandler db=new DatabaseHandler(getContext());
               productMaxId=db.getProductMaxId()+1;
+              db.close();
              Log.d("Image_URL",productMaxId+"");
              ImageURL="https://jwang.scweb.ca/PhotoServer/images/"+productMaxId+".jpg";
 
@@ -191,10 +192,11 @@ public class AddProductFragment extends Fragment {
                 Product product=new Product(nameInput.getText().toString(),priceInput.getText().toString(),
                         amountInput.getText().toString(),ImageURL,unitSpinner.getSelectedItem().toString(),
                         CategoryProductAdapter.categoryId);
-               Log.d("ChoiceIs",unitSpinner.getSelectedItem().toString());
+              // Log.d("ChoiceIs",unitSpinner.getSelectedItem().toString());
                DatabaseHandler db=new DatabaseHandler(getContext());
                db.addProduct(product);
                db.close();
+
                nameInput.setText("");
                priceInput.setText("");
                amountInput.setText("");
