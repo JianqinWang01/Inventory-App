@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AddProductFragment"
+    tools:context=".UpdateProductFragment"
 
 
     >
@@ -17,24 +18,27 @@
         >
 
         <ImageView
-            android:id="@+id/updateImage"
+            android:id="@+id/updateProductImage"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="70dp"
-            android:layout_marginRight="20dp" />
-
+            android:layout_marginRight="20dp"
+            app:srcCompat="@drawable/camera" />
         <Button
-            android:id="@+id/updatePhotoBut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Take Photo"
             android:layout_gravity="bottom"
-            android:text="Take Photo" />
+            android:id="@+id/takePhotoButton"
+            />
     </LinearLayout>
+
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="2" >
+        android:layout_marginRight="5dp"
+        android:columnCount="2">
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,7 +49,7 @@
             android:textStyle="bold" />
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/updateproductNameInput"
+            android:id="@+id/updateNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/editCategoryTextSize" />
@@ -59,9 +63,10 @@
             android:textStyle="bold" />
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/updateproductPriceInput"
+            android:id="@+id/updatePriceInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             android:textSize="@dimen/editCategoryTextSize" />
 
         <TextView
@@ -72,20 +77,42 @@
             android:textSize="@dimen/editCategoryTextSize"
             android:textStyle="bold" />
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/updateproductAmountInput"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/editCategoryTextSize" />
+            android:orientation="horizontal">
 
 
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/updateAmountInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
+                android:textSize="@dimen/editCategoryTextSize" />
+
+            <Spinner
+                android:id="@+id/updateseclectUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                app:srcCompat="@drawable/ic_arrow_drop_down_black_24dp" />
+
+        </LinearLayout>
 
 
     </GridLayout>
 
     <Button
-        android:id="@+id/updateProductBut"
-        android:layout_width="wrap_content"
+        android:id="@+id/updateProductButton"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"

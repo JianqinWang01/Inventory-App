@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +86,8 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             public void onClick(View v) {
                 HomeFragment.transaction=HomeFragment.fm.beginTransaction();
                 HomeFragment.transaction.addToBackStack(null);
-                HomeFragment.transaction.replace(R.id.content,new AddProductFragment());
+                HomeFragment.transaction.replace(R.id.content,UpdateProductFragment.newInstance(prodList.get(viewHolder.getAdapterPosition())));
+               // HomeFragment.transaction.replace(R.id.content,new UpdateProductFragment());
                 HomeFragment.transaction.commit();
             }
         });

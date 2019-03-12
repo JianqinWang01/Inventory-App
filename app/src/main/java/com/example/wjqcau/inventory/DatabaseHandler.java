@@ -263,20 +263,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
   }
 //do not update image url while update image
-  public void updateProduct(String name,String price,String amount,String unit,Product product){
+  public void updateProduct(String name,String price,String amount,String unit,int productId){
       SQLiteDatabase db=this.getWritableDatabase();
       ContentValues values=new ContentValues();
-      if((name!=null)&&(name!=" ")&&(name!=""))
-      {values.put(COLUMN_PROD_NAME,name);}
-      if((price!=null)&&(price!=" ")&&(price!=" "))
-      {values.put(COLUMN_PROD_PRICE,price);}
-      if((amount!=null)&&(amount!="")&&(amount!=" "))
-      {values.put(COLUMN_PROD_AMOUNT,amount);}
+
+      values.put(COLUMN_PROD_NAME,name);
+      values.put(COLUMN_PROD_PRICE,price);
+
+      values.put(COLUMN_PROD_AMOUNT,amount);
       values.put(COLUMN_PROD_UNIT,unit);
 
 
       db.update(TABLE_PRODUCT,values,COLUMN_ID+"=?",
-              new String[]{String.valueOf(product.getId())});
+              new String[]{String.valueOf(productId)});
       db.close();
   }
 
