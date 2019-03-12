@@ -1,6 +1,9 @@
 package com.example.wjqcau.inventory.JavaBean;
 
-public class Product {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Product implements Parcelable {
     int id;
     int categoryID;
     String name;
@@ -98,4 +101,42 @@ public class Product {
     public void setCategoryID(int categoryID) {
         this.categoryID = categoryID;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.categoryID);
+        dest.writeString(this.name);
+        dest.writeString(this.price);
+        dest.writeString(this.amount);
+        dest.writeString(this.imageUrl);
+        dest.writeString(this.unit);
+    }
+
+    protected Product(Parcel in) {
+        this.id = in.readInt();
+        this.categoryID = in.readInt();
+        this.name = in.readString();
+        this.price = in.readString();
+        this.amount = in.readString();
+        this.imageUrl = in.readString();
+        this.unit = in.readString();
+    }
+
+    public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel source) {
+            return new Product(source);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 }
