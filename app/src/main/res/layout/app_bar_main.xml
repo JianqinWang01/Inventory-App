@@ -22,24 +22,30 @@
             app:titleTextAppearance="@style/toolBarTitle">
 
             <ImageView
-                android:id="@+id/searchProduct"
+                android:id="@+id/searchProductImage"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="end"
+                android:layout_marginRight="10dp"
                 android:src="@drawable/ic_search_black_24dp" />
 
             <ImageView
                 android:id="@+id/addCategoryImage"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="end"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/ic_add_circle_outline_black_24dp" />
 
 
         </android.support.v7.widget.Toolbar>
 
-
+        <!--<com.miguelcatalan.materialsearchview.MaterialSearchView-->
+            <!--android:id="@+id/search_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:visibility="gone"-->
+            <!--/>-->
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />
