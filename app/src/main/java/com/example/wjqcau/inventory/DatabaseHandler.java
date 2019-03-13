@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.wjqcau.inventory.JavaBean.Product;
 import com.example.wjqcau.inventory.JavaBean.ProductCategory;
+import com.example.wjqcau.inventory.JavaBean.SearchResult;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -160,6 +161,45 @@ public class DatabaseHandler extends SQLiteOpenHelper {
       return categories;
 
    }
+    public String getCategoryName(int categoryId){
+     String categoryName="";
+     SQLiteDatabase db=getReadableDatabase();
+      Cursor cursor=db.query(TABLE_CATEGORY,new String[]{COLUMN_CATE_TITLE},COLUMN_ID+"=?",
+              new String[]{String.valueOf(categoryId)},null,null,null);
+      if(cursor.moveToFirst()){
+          categoryName=cursor.getString(0);
+      }
+
+
+     db.close();
+
+
+      return categoryName;
+    }
+
+
+    public ArrayList<SearchResult> getProductSearchResult(){
+      ArrayList<SearchResult> produtSearchLists=new ArrayList<>();
+      SQLiteDatabase db=getReadableDatabase();
+      Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE_PRODUCT,null);
+      if(cursor.moveToFirst()){
+          do{
+              int productId=Integer.parseInt(cursor.getString(0));
+              String productName=cursor.getString(1);
+              String productPrice=cursor.getString(2);
+              int cateId= Integer.parseInt(cursor.getString(6));
+              String categoryName=getCategoryName(cateId);
+              produtSearchLists.add(new SearchResult(productId,productName,productPrice,categoryName));
+
+          }while(cursor.moveToNext());
+      }
+
+
+
+      db.close();
+
+      return produtSearchLists;
+    }
 
 
 
@@ -177,9 +217,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
       if(cursor.moveToFirst()){
 
           product=new Product(Integer.parseInt(cursor.getString(0)),
-                              cursor.getColumnName(1),
-                              cursor.getColumnName(2),
-                              cursor.getColumnName(3),
+                              cursor.getString(1),
+                              cursor.getString(2),
+                              cursor.getString(3),
                               cursor.getString(4),
                               cursor.getString(5),
                               Integer.parseInt(cursor.getString(6))
