@@ -22,24 +22,30 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         HomeFragment.OnFragmentInteractionListener,
         AddProductFragment.OnFragmentInteractionListener,
-       UpdateProductFragment.OnFragmentInteractionListener{
+       UpdateProductFragment.OnFragmentInteractionListener,
+        SearchFragment.OnFragmentInteractionListener{
     FragmentManager fm;
+//    public static ActionBar actionBar;
    public static AddProductFragment addProductFragment;
     //Declare a globe for add category
    public static ImageView addCategoryImage;
+   //Declare a global variable for search product
+  //  public static ImageView searchProductImage;
     //declare the fabbutton with public static
    public static FloatingActionButton fab;
   // public static ImageView addCategoryButton;
+ // MaterialSearchView searchView;
+    private ImageView searchProductImage;
+    public static ActionBar  actionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       Toolbar  toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -61,16 +67,27 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         fm=getSupportFragmentManager();
-        FragmentTransaction transaction=fm.beginTransaction();
+         final FragmentTransaction transaction=fm.beginTransaction();
         transaction.addToBackStack(null);
         transaction.replace(R.id.content,new HomeFragment());
         transaction.commit();
         //Delete the app name from header
-        ActionBar ab = getSupportActionBar();
-        ab.setTitle("");
+          actionBar= getSupportActionBar();
+        actionBar.setTitle("");
         addCategoryImage=(ImageView)toolbar.findViewById(R.id.addCategoryImage);
-       // addCategoryImage.setVisibility(View.INVISIBLE);
+        searchProductImage=(ImageView)toolbar.findViewById(R.id.searchProductImage);
       addProductFragment=new AddProductFragment();
+
+       // searchView = (MaterialSearchView) findViewById(R.id.search_view);
+     searchProductImage.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             FragmentTransaction transaction1=fm.beginTransaction();
+             transaction1.replace(R.id.content,new SearchFragment());
+             transaction1.addToBackStack(null);
+             transaction1.commit();
+         }
+     });
     }
 
     @Override
@@ -88,6 +105,23 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
        // mask the setting menu here
         getMenuInflater().inflate(R.menu.main, menu);
+//        MenuItem item=menu.findItem(R.id.action_search);
+//
+//
+//        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                FragmentTransaction transaction=fm.beginTransaction();
+//
+//               transaction.replace(R.id.content,new SearchFragment());
+//               transaction.addToBackStack(null);
+//               transaction.commit();
+//                Log.d("ItemChoice","go here");
+//                 searchView.setMenuItem(item);
+//                searchView.setVisibility(View.VISIBLE);
+//                return false;
+//            }
+//        });
 
         return true;
     }
@@ -97,13 +131,17 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.addCategory) {
-//            return true;
-//        }
-
+//         if(id==R.id.action_search){
+//
+//             FragmentTransaction transaction=fm.beginTransaction();
+//               transaction.replace(R.id.content,new SearchFragment());
+//               transaction.addToBackStack(null);
+//               transaction.commit();
+//         }
+//
+//       Log.d("ItemChoice","go there");
         return super.onOptionsItemSelected(item);
     }
 

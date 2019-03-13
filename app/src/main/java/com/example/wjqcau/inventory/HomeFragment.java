@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MainActivity.addCategoryImage.setVisibility(View.VISIBLE);
+        MainActivity.actionBar.show();
         // Inflate the layout for this fragment
        View view=inflater.inflate(R.layout.fragment_home, container, false);
         final RecyclerView recyclerViewCatetory=view.findViewById(R.id.category_item_recycleView);
