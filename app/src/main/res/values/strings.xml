@@ -22,5 +22,7 @@
     <string name="confirmTitle">Delete  forever?</string>
     <string name="confirmYes">Delete</string>
     <string name="confirmNo">Cancel</string>
-
+    <!--price reference fragment-->
+    <string name="walmart_title">Releated Product in Walmart</string>
+    <string name="buttonName">Get Product</string>
 </resources>
