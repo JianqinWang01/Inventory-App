@@ -18,10 +18,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.wjqcau.inventory.JavaBean.RefProduct;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 /**
@@ -43,7 +46,7 @@ public class PriceReferFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    private ArrayList<RefProduct> refProducts;
     public PriceReferFragment() {
         // Required empty public constructor
     }
@@ -80,7 +83,7 @@ public class PriceReferFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_price_refer, container, false);
-        final TextView showJosonText=view.findViewById(R.id.walmartContent);
+       // final TextView showJosonText=view.findViewById(R.id.walmartContent);
         Button GrabJoson=view.findViewById(R.id.getJsonBut);
         GrabJoson.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,10 +106,10 @@ public class PriceReferFragment extends Fragment {
                                      String productName=productItem.getString("name");
                                      String productPrice=productItem.getString("salePrice");
                                      String imageURl=productItem.getString("thumbnailImage");
-                                    showString+=productName+";"+productPrice+"\n\n";
+                                    showString+=productName+";"+productPrice+"\n"+imageURl+"\n";
                                     }
 
-                                    showJosonText.setText(showString);
+                                    //showJosonText.setText(showString);
 
                                 }catch (JSONException e){
                                     e.printStackTrace();
