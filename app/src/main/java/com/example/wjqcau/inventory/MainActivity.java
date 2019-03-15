@@ -27,10 +27,12 @@ public class MainActivity extends AppCompatActivity
         HomeFragment.OnFragmentInteractionListener,
         AddProductFragment.OnFragmentInteractionListener,
        UpdateProductFragment.OnFragmentInteractionListener,
-        SearchFragment.OnFragmentInteractionListener{
+        SearchFragment.OnFragmentInteractionListener,
+        PriceReferFragment.OnFragmentInteractionListener {
     FragmentManager fm;
 //    public static ActionBar actionBar;
    public static AddProductFragment addProductFragment;
+  // public static SearchFragment searchFragment;
     //Declare a globe for add category
    public static ImageView addCategoryImage;
    //Declare a global variable for search product
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity
         addCategoryImage=(ImageView)toolbar.findViewById(R.id.addCategoryImage);
         searchProductImage=(ImageView)toolbar.findViewById(R.id.searchProductImage);
       addProductFragment=new AddProductFragment();
+    //  searchFragment=new SearchFragment();
 
        // searchView = (MaterialSearchView) findViewById(R.id.search_view);
      searchProductImage.setOnClickListener(new View.OnClickListener() {
@@ -105,23 +108,7 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
        // mask the setting menu here
         getMenuInflater().inflate(R.menu.main, menu);
-//        MenuItem item=menu.findItem(R.id.action_search);
-//
-//
-//        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                FragmentTransaction transaction=fm.beginTransaction();
-//
-//               transaction.replace(R.id.content,new SearchFragment());
-//               transaction.addToBackStack(null);
-//               transaction.commit();
-//                Log.d("ItemChoice","go here");
-//                 searchView.setMenuItem(item);
-//                searchView.setVisibility(View.VISIBLE);
-//                return false;
-//            }
-//        });
+
 
         return true;
     }
@@ -164,7 +151,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_setting) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_priceRef) {
+            transaction.addToBackStack(null);
+            transaction.replace(R.id.content,new PriceReferFragment());
 
         } else if (id == R.id.nav_send) {
 
@@ -195,6 +184,7 @@ public class MainActivity extends AppCompatActivity
 
                 }
                 break;
+
 
 
 

@@ -25,6 +25,10 @@
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_menu_manage"
             android:title="Setting" />
+        <item
+            android:id="@+id/nav_priceRef"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Price Ref" />
     </group>
 
     <item
@@ -32,10 +36,6 @@
         android:layout_height="match_parent"
         android:title="Communicate">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
