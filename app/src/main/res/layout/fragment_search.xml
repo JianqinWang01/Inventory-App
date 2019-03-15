@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SearchFragment">
     <!-- TODO: Update blank fragment layout -->
-
-    <SearchView
-        android:id="@+id/searchAction"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/searchborder"
-        android:queryBackground="@color/colorPrimaryDark">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    </SearchView>
+        <SearchView
+            android:id="@+id/searchAction"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/searchborder"
+            android:padding="5dp"
+            android:queryBackground="@color/colorPrimaryDark">
+
+        </SearchView>
+
+        <ImageView
+            android:id="@+id/VoiceIcon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="8"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_keyboard_voice_black_24dp" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -65,7 +85,10 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/searchProductRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="345dp"
         android:layout_margin="10dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp">
+
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>

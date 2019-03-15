@@ -1,22 +1,39 @@
 package com.example.wjqcau.inventory;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.wjqcau.inventory.JavaBean.SearchResult;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -32,7 +49,7 @@ public class SearchFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    ArrayList<String> result=new ArrayList<>();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -40,6 +57,8 @@ public class SearchFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private CustomSearchRecyclerAdapter adapter;
     private ArrayList<SearchResult> originLists;
+    SearchView searchView;
+    public static final int VOICE_REQUEST_CODE=20;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -81,7 +100,7 @@ public class SearchFragment extends Fragment {
       View view=  inflater.inflate(R.layout.fragment_search, container, false);
       // MainActivity.actionBar.hide();
        //Layout floatView=view.findViewById(R.id.floatingView);
-        SearchView searchView=(SearchView)view.findViewById(R.id.searchAction);
+         searchView=(SearchView)view.findViewById(R.id.searchAction);
         searchView.setIconifiedByDefault(false);
        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
@@ -94,8 +113,6 @@ public class SearchFragment extends Fragment {
         adapter=new CustomSearchRecyclerAdapter(getContext(),originLists);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -110,8 +127,53 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
+
+        ImageView voiceActionImage=view.findViewById(R.id.VoiceIcon);
+        voiceActionImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("VoiceRun","hello");
+                Intent intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+               intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getContext().getPackageName());
+//
+//                speechRecognizer.startListening(intent);
+              //  intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,Locale.getdefault);
+
+
+                    Log.d("VoiceRun","hello1");
+
+                  startActivity(intent);
+
+            }
+        });
+
         return view;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("VoiceRun","hello2");
+
+
+        switch (requestCode){
+
+            case VOICE_REQUEST_CODE:
+                if(resultCode==RESULT_OK&&data!=null){
+                    Log.d("VoiceRun","hello2");
+
+             ArrayList<String> result =  data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+              searchView.setQuery(result.get(0),true);
+                }
+                break;
+        }
+    }
+
+
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
