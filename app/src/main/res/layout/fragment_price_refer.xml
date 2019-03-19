@@ -20,6 +20,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/searchborder"
         android:orientation="horizontal">
 
         <Spinner
@@ -32,12 +34,14 @@
             android:id="@+id/getJsonBut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
+            android:background="@android:color/holo_orange_light"
             android:text="Get" />
     </LinearLayout>
 
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/refRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

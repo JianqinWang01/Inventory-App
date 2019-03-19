@@ -144,7 +144,8 @@ public class SearchFragment extends Fragment {
 
                     Log.d("VoiceRun","hello1");
 
-                  startActivity(intent);
+                  //startActivity(intent);
+                  startActivityForResult(intent,VOICE_REQUEST_CODE);
 
             }
         });
