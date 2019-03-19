@@ -1,15 +1,22 @@
 package com.example.wjqcau.inventory;
 
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.CircularProgressDrawable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -47,6 +54,11 @@ public class PriceReferFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ArrayList<RefProduct> refProducts;
+    RecyclerView refRecyclerView;
+    private ArrayList<String> productNames;
+    private ProgressDialog dialog;
+    private Spinner spinner;
+
     public PriceReferFragment() {
         // Required empty public constructor
     }
@@ -76,6 +88,14 @@ public class PriceReferFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        refProducts=new ArrayList<>();
+        productNames=new ArrayList<>();
+        DatabaseHandler db=new DatabaseHandler(getContext());
+        productNames=db.getAllProductNames();
+        db.close();
+        dialog=new ProgressDialog(getContext());
+        dialog.setMessage("Please waiting...");
+        MainActivity.addCategoryImage.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -83,56 +103,93 @@ public class PriceReferFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_price_refer, container, false);
+
+
        // final TextView showJosonText=view.findViewById(R.id.walmartContent);
+         spinner=view.findViewById(R.id.productNameSpinner);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, productNames);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+        refRecyclerView=view.findViewById(R.id.refRecyclerView);
+
         Button GrabJoson=view.findViewById(R.id.getJsonBut);
+
         GrabJoson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-      String url="http://api.walmartlabs.com/v1/search?query=fish&format=json&apiKey=283c225hgrac7m7jx6jzehpb";
-                RequestQueue requestQueue=Volley.newRequestQueue(getContext());
-                JsonObjectRequest objectRequest=new JsonObjectRequest(
-                        Request.Method.GET,
-                        url,
-                        null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try{
-                                    String showString="";
-                                    JSONArray jsonArray=response.getJSONArray("items");
-                                    for(int i=0;i<jsonArray.length();i++){
+                refProducts.clear();
+                dialog.show();
+              GrabData();
 
-                                     JSONObject productItem=jsonArray.getJSONObject(i);
-                                     String productName=productItem.getString("name");
-                                     String productPrice=productItem.getString("salePrice");
-                                     String imageURl=productItem.getString("thumbnailImage");
-                                    showString+=productName+";"+productPrice+"\n"+imageURl+"\n";
-                                    }
-
-                                    //showJosonText.setText(showString);
-
-                                }catch (JSONException e){
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("Error", "onErrorResponse: ");
-                            }
-                        }
-
-
-                );
-                requestQueue.add(objectRequest);
             }
         });
+
+
+
 
         return view;
     }
 
+    //Initial the Arraylist
+    public void GrabData(){
+        String url=Config.WalmartString+spinner.getSelectedItem().toString()+Config.WalmartKey;
+       // Log.d("URLoutput",url);
+        RequestQueue requestQueue=Volley.newRequestQueue(getContext());
+        JsonObjectRequest objectRequest=new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try{
+                            // String showString="";
+                            JSONArray jsonArray=response.getJSONArray("items");
+                            for(int i=0;i<jsonArray.length();i++){
+
+                                JSONObject productItem=jsonArray.getJSONObject(i);
+                                String productName=productItem.getString("name");
+                                String productPrice=productItem.getString("salePrice");
+                                String imageURl=productItem.getString("thumbnailImage");
+                                String cateName=productItem.getString("categoryPath");
+                                //showString+=productName+";"+productPrice+"\n"+imageURl+"\n";
+                                refProducts.add(new RefProduct(productName,productPrice,
+                                        imageURl,cateName));
+                            }
+                            CustomRefPriceAdapter adapter=new CustomRefPriceAdapter(getContext(),refProducts);
+                            refRecyclerView.setAdapter(adapter);
+                            refRecyclerView.setHasFixedSize(true);
+                            refRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+                            dialog.dismiss();
+
+                            //showJosonText.setText(showString);
+
+
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error", "onErrorResponse: ");
+                    }
+                }
+
+
+        );
+        requestQueue.add(objectRequest);
+
+    }
+
+
+
+//    public void showProductList(){
+//
+//    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
