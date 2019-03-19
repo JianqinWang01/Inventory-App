@@ -200,7 +200,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
       return produtSearchLists;
     }
+   public ArrayList<String> getAllProductNames(){
+      ArrayList<String> names=new ArrayList<>();
+      SQLiteDatabase db=getReadableDatabase();
+      Cursor cursor=db.rawQuery("SELECT "+COLUMN_PROD_NAME+" FROM "+TABLE_PRODUCT,null);
+      if(cursor.moveToFirst()){
+          do{
 
+             names.add(cursor.getString(0));
+
+          }while(cursor.moveToNext());
+      }
+
+      db.close();
+      return names;
+   }
 
 
     /**
