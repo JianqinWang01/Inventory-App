@@ -29,18 +29,17 @@
             android:id="@+id/nav_priceRef"
             android:icon="@drawable/ic_menu_share"
             android:title="Price Ref" />
+        <item
+            android:id="@+id/nav_warning"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Stock Warning" />
     </group>
 
     <item
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
+        <menu></menu>
     </item>
 
 </menu>
