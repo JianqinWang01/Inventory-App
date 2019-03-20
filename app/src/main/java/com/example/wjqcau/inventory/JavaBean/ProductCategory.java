@@ -43,4 +43,9 @@ public class ProductCategory {
     public void setProductList(ArrayList<Product> productList) {
         this.productList = productList;
     }
+
+    @Override
+    public String toString() {
+        return  title;
+    }
 }
