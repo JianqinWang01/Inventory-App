@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity
         AddProductFragment.OnFragmentInteractionListener,
        UpdateProductFragment.OnFragmentInteractionListener,
         SearchFragment.OnFragmentInteractionListener,
-        PriceReferFragment.OnFragmentInteractionListener {
+        PriceReferFragment.OnFragmentInteractionListener,
+         StockWarningFragment.OnFragmentInteractionListener{
     FragmentManager fm;
 //    public static ActionBar actionBar;
    public static AddProductFragment addProductFragment;
@@ -155,8 +156,11 @@ public class MainActivity extends AppCompatActivity
             transaction.addToBackStack(null);
             transaction.replace(R.id.content,new PriceReferFragment());
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_warning) {
 
+            // Handle the camera action
+            transaction.addToBackStack(null);
+            transaction.replace(R.id.content,new StockWarningFragment());
         }
 
         transaction.commit();
