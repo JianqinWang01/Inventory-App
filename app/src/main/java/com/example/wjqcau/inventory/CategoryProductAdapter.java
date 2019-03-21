@@ -233,7 +233,7 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
 
      ProductItemAdapter adapter= new ProductItemAdapter(context,productList);
 
-     categoryProductViewHolder.recyclerView.setHasFixedSize(true);
+    // categoryProductViewHolder.recyclerView.setHasFixedSize(true);
      categoryProductViewHolder.recyclerView.setAdapter(adapter);
      categoryProductViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,
              false));
