@@ -1,12 +1,27 @@
 package com.example.wjqcau.inventory;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.wjqcau.inventory.JavaBean.ContactItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 
 /**
@@ -26,6 +41,8 @@ public class ContactFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    //define the listview to hold the contact content
+    ListView contactListView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,8 +81,138 @@ public class ContactFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contact, container, false);
+        View view=inflater.inflate(R.layout.fragment_contact, container, false);
+        contactListView=(ListView)view.findViewById(R.id.contact_listView);
+        //Declare a arraylist to store the list of the items
+        final ArrayList<ContactItem> contactItems=new ArrayList<>();
+        contactItems.add(new ContactItem(R.string.contact_tel,R.drawable.ic_phone_contact_24dp));
+        contactItems.add(new ContactItem(R.string.contact_SMS,R.drawable.ic_message_contact_24dp));
+        contactItems.add(new ContactItem(R.string.contact_email,R.drawable.ic_email_contact_24dp));
+        contactItems.add(new ContactItem(R.string.contact_location,R.drawable.ic_location_contact_24dp));
+        contactItems.add(new ContactItem(R.string.contact_website,R.drawable.ic_web_contact_24dp));//
+        //Declare a CustomerAdapter adapter
+        CustomerAdapter adapter=new CustomerAdapter(getContext(),contactItems);
+        //Bind the adapter to contactView
+        contactListView.setAdapter(adapter);
+        contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ContactItem currentItem=(ContactItem)contactListView.getItemAtPosition(position);
+                switch (position){
+                    case 0:
+                        //declare intent
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        //set intent with telephone number
+                        intent.setData(Uri.parse("tel:5199974000"));
+                        //Decide whether the user's phone has related software to run this functionality
+                        if(intent.resolveActivity(getActivity().getPackageManager()) != null){
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(getContext(),"You do not have the correct software",Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case 1:
+                        //Declare intent and set data with the telephone number
+                        Intent intentMessage = new Intent(Intent.ACTION_SENDTO);
+                        intentMessage.setData(Uri.parse("smsto:5199974000"));
+                        //Decide whether the user's phone has related software to run this functionality
+                        if(intentMessage.resolveActivity(getActivity().getPackageManager()) != null){
+                            startActivity(intentMessage);
+                        }
+                        else{
+                            Toast.makeText(getContext(),
+                                    "You do not have the correct software",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case 2:{
+
+                        //declare a intent bind the email address
+                        Intent intentEmail = new Intent(Intent.ACTION_SENDTO);
+                        intentEmail.setData(Uri.parse("mailto:jianqin.wang01@stclairconnect.ca"));
+                        //intent.putExtra(Intent.EXTRA_EMAIL, "jianqin.wang01@stclairconnect.ca");
+                        // //Decide whether the user's phone has related software to run this functionality
+                        if(intentEmail.resolveActivity(getActivity().getPackageManager()) != null){
+                            startActivity(intentEmail);
+
+                        }
+                        else{
+                            Toast.makeText(getContext(),
+                                    "You do not have the FoxMail software",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    }
+                    //view map
+                    case 3:{
+                        //Declare a Intent and set data with the location data
+                        //"geo:0,0?q=42.2470072,-83.0149074(Tim Hortons)"
+                        Uri geoLocation = Uri.parse("geo:0,0?q=42.2615179,-83.0423989(Mr.Wang)");
+                        Intent intentMap = new Intent(Intent.ACTION_VIEW);
+                        intentMap.setData(geoLocation);
+                        // //Decide whether the user's phone has related software to run this functionality
+                        if(intentMap.resolveActivity(getActivity().getPackageManager()) != null){
+                            startActivity(intentMap);
+                        }
+                        else{
+                            Toast.makeText(getContext(),"You do not have the correct software",Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+
+                    }
+                    //view website
+                    case 4:{
+                        //Declare the intent and set data with website
+                        Intent intentWeb = new Intent(Intent.ACTION_VIEW);
+                        intentWeb.setData(Uri.parse("http://www.stclaircollege.ca"));
+                        // //Decide whether the user's phone has related software to run this functionality
+                        if(intentWeb.resolveActivity(getActivity().getPackageManager()) != null){
+                            startActivity(intentWeb);
+                        }
+                        else{
+                            Toast.makeText(getContext(),
+                                    "You do not have the correct software",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    }
+
+
+                }
+            }
+        });
+
+        return view;
     }
+
+    //Declare a cumstomerAdapter class
+    public class CustomerAdapter extends ArrayAdapter<ContactItem> {
+
+
+        public CustomerAdapter(@NonNull Context context, @NonNull ArrayList<ContactItem> items) {
+            super(context, 0, items);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            if(convertView==null){
+                convertView=LayoutInflater.from(getContext()).inflate(R.layout.contact_item,parent,false);
+            }
+            TextView itemName=convertView.findViewById(R.id.contact_item_text);
+            ContactItem item=getItem(position);
+            itemName.setText(item.getItemTitle());
+
+
+            ImageView imageView=convertView.findViewById(R.id.contact_item_iamge);
+            imageView.setImageResource(item.getImageID());
+
+
+            return convertView;
+        }
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

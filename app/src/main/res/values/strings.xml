@@ -25,4 +25,23 @@
     <!--price reference fragment-->
     <string name="walmart_title">Releated Product in Walmart</string>
     <string name="buttonName">Get Product</string>
+    <!--Contact fragment information-->
+    <string name="contact_title">You can review our website, SMS and Tel us, or you can
+         Mail us and see our location
+    </string>
+    <string name="contact_email">
+       Send  Email
+    </string>
+    <string name="contact_tel">
+        Call telephone
+    </string>
+    <string name="contact_SMS">
+        Send Message
+    </string>
+    <string name="contact_website">
+      View Website
+    </string>
+    <string name="contact_location">
+       View Location
+    </string>
 </resources>
