@@ -14,9 +14,17 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Home" />
         <item
+            android:id="@+id/nav_priceRef"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Price Ref" />
+        <item
+            android:id="@+id/nav_warning"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Stock Warning" />
+        <item
             android:id="@+id/nav_contact"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Contact" />
+            android:title="Contact Author" />
         <item
             android:id="@+id/nav_credit"
             android:icon="@drawable/ic_menu_gallery"
@@ -25,14 +33,6 @@
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_menu_manage"
             android:title="Setting" />
-        <item
-            android:id="@+id/nav_priceRef"
-            android:icon="@drawable/ic_menu_share"
-            android:title="Price Ref" />
-        <item
-            android:id="@+id/nav_warning"
-            android:icon="@drawable/ic_menu_send"
-            android:title="Stock Warning" />
     </group>
 
     <item
