@@ -1,6 +1,8 @@
 package com.example.wjqcau.inventory;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,7 +36,7 @@ public class SearchFloatList extends BottomSheetDialogFragment {
 
         View view=inflater.inflate(R.layout.searchselectlistview,container,false);
         DatabaseHandler db=new DatabaseHandler(getContext());
-        Product product=db.getProduct(productId);
+       final Product product=db.getProduct(productId);
         db.close();
         TextView productName=view.findViewById(R.id.productName);
         TextView productQuantity=view.findViewById(R.id.productQuantity);
@@ -58,6 +60,27 @@ public class SearchFloatList extends BottomSheetDialogFragment {
 
 
       categoryNameView.setText(categoryName);
+
+      ImageView shareProduct=view.findViewById(R.id.shareProduct);
+      shareProduct.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+
+              Intent shareIntent = new Intent();
+              shareIntent.setAction(Intent.ACTION_SEND);
+              shareIntent.putExtra(Intent.EXTRA_TEXT,"Name: "+product.getName()+"\n"+"Price: $"+product.getPrice()
+                      +"  /"+product.getUnit()+
+                      "\n"+"Image link:\n"+product.getImageUrl());
+
+              shareIntent.setType("text/plain");
+
+              startActivity(Intent.createChooser(shareIntent, "Share product..."));
+
+          }
+      });
+
+
+
 
       //  Log.d("PassValue:",categoryName);
         return  view;
