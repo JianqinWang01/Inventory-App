@@ -30,7 +30,9 @@ public class MainActivity extends AppCompatActivity
         SearchFragment.OnFragmentInteractionListener,
         PriceReferFragment.OnFragmentInteractionListener,
          StockWarningFragment.OnFragmentInteractionListener,
-         ContactFragment.OnFragmentInteractionListener{
+         ContactFragment.OnFragmentInteractionListener,
+         CreditFragment.OnFragmentInteractionListener,
+         CreditItemFragment.OnFragmentInteractionListener{
     FragmentManager fm;
 //    public static ActionBar actionBar;
    public static AddProductFragment addProductFragment;
@@ -151,6 +153,8 @@ public class MainActivity extends AppCompatActivity
          transaction.replace(R.id.content,new ContactFragment());
 
         } else if (id == R.id.nav_credit) {
+            transaction.addToBackStack(null);
+            transaction.replace(R.id.content,new CreditFragment());
 
         } else if (id == R.id.nav_setting) {
 

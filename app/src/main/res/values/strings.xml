@@ -44,4 +44,65 @@
     <string name="contact_location">
        View Location
     </string>
+    <!--
+#############################################################################
+Credits
+-->
+
+    <string name="credits_title">Credits</string>
+    <string name="credits_header_image">Image Icon and design</string>
+    <string name="credits_image_description">
+        <![CDATA[
+            https://www.flaticon.com/home
+            <br/>
+            <br/>
+            https://pixabay.com/
+            <br/>
+            <br/>
+            https://material.io/design/
+            <br/>
+            <br/>
+        ]]>
+    </string>
+    <string name="credits_header_api">API SDK and Techology</string>
+    <string name="credits_api_description">
+         <![CDATA[
+
+                https://developer.walmartlabs.com/io-docs
+                 <br/ ><br/>
+                 <br/ >
+                com.github.PhilJay:MPAndroidChart:v3.1.0-alpha
+                 <br/>
+                 <br/>
+                jp.wasabeef:picasso-transformations:2.1.0
+                <br/>
+                <br/>
+                <b>Developer Technology</b>
+                <br/ >
+                <br/ >
+
+               https://developer.android.com/
+                <br/>
+                <br/>
+                https://stackoverflow.com/
+                <br/>
+                <br/>
+
+
+            ]]>
+    </string>
+    <string name="credits_header_github">GitHub</string>
+    <string name="credits_github_description">
+         <![CDATA[
+
+                 <br/ ><br/>
+                 <br/ >
+               https://github.com/
+                <br/>
+                <br/>
+
+
+            ]]>
+
+    </string>
 </resources>
