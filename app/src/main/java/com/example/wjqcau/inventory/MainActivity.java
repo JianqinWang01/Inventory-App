@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity
          StockWarningFragment.OnFragmentInteractionListener,
          ContactFragment.OnFragmentInteractionListener,
          CreditFragment.OnFragmentInteractionListener,
-         CreditItemFragment.OnFragmentInteractionListener{
+         CreditItemFragment.OnFragmentInteractionListener,
+         SettingFragment.OnFragmentInteractionListener{
     FragmentManager fm;
 //    public static ActionBar actionBar;
    public static AddProductFragment addProductFragment;
@@ -157,6 +158,10 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.content,new CreditFragment());
 
         } else if (id == R.id.nav_setting) {
+            transaction.addToBackStack(null);
+            transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+           //transaction.add(R.id.content,new SettingFragment(),"settingpage");
+            transaction.replace(R.id.content,new SettingFragment());
 
         } else if (id == R.id.nav_priceRef) {
             transaction.addToBackStack(null);

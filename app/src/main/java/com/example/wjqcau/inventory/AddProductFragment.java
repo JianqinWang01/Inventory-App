@@ -2,6 +2,7 @@ package com.example.wjqcau.inventory;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -90,6 +92,7 @@ public class AddProductFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    SharedPreferences settingPref;
 
     public AddProductFragment() {
         // Required empty public constructor
@@ -124,6 +127,7 @@ public class AddProductFragment extends Fragment {
         fm=getFragmentManager();
         spinerList = new ArrayList<String>();
         //addUnitSpinner();
+        settingPref=PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
 
@@ -133,8 +137,14 @@ public class AddProductFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
       View view =  inflater.inflate(R.layout.fragment_add_product, container, false);
+     spinerList.clear();
       //add spinner
-        spinerList.add("lb");
+       if(settingPref.getString("unitkey","lb")!=null){
+           spinerList.add(settingPref.getString("unitkey","lb"));
+       }else{
+           spinerList.add("lb");
+       }
+
         spinerList.add("PKG");
 
         unitSpinner = (Spinner) view.findViewById(R.id.seclectUnit);

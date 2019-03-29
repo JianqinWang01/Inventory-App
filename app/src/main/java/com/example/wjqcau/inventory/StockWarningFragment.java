@@ -1,9 +1,11 @@
 package com.example.wjqcau.inventory;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,8 +59,8 @@ public class StockWarningFragment extends Fragment {
 
     View  fragmentView;
 
-
-
+   SharedPreferences settingPref;
+   float lowStockLine,highStockLine;
     public StockWarningFragment() {
         // Required empty public constructor
     }
@@ -90,7 +92,7 @@ public class StockWarningFragment extends Fragment {
         }
         categories=new ArrayList<>();
 
-
+      settingPref=PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
     @Override
@@ -114,6 +116,16 @@ public class StockWarningFragment extends Fragment {
         mChart=(LineChart)fragmentView.findViewById(R.id.LineChart);
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
+       if(settingPref.getString("lowStockLine","10")!=null){
+           lowStockLine=Float.parseFloat(settingPref.getString("lowStockLine","10"));
+       }
+       else lowStockLine=10f;
+       if(settingPref.getString("highStockLine","40")!=null){
+           highStockLine=Float.parseFloat(settingPref.getString("highStockLine","40"));
+       }else{
+           highStockLine=35f;
+       }
+
 
         choiceCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,13 +151,13 @@ public class StockWarningFragment extends Fragment {
                 dataSetSet1.setCircleColor(Color.BLACK);
 
                 //add Limitation
-                LimitLine limitLineHigh=new LimitLine(35f,"Tow Much Stock");
+                LimitLine limitLineHigh=new LimitLine(highStockLine,"Too Much Stock");
                 limitLineHigh.setLineWidth(4f);
                 limitLineHigh.enableDashedLine(10f,10f,0);
                 limitLineHigh.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
                 limitLineHigh.setTextSize(10f);
 
-                LimitLine limitLineLow=new LimitLine(10f,"Tow Less Stock");
+                LimitLine limitLineLow=new LimitLine(lowStockLine,"Too Less Stock");
                 limitLineLow.setLineWidth(4f);
                 limitLineLow.enableDashedLine(10f,10f,0);
                 limitLineLow.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
@@ -167,6 +179,7 @@ public class StockWarningFragment extends Fragment {
                 String[] values=new String[products.size()];
                 for(int i=0;i<products.size();i++){
                     values[i]=products.get(i).getName();
+                    Log.d("productname",values[i]);
                 }
 
 
@@ -207,19 +220,17 @@ public class StockWarningFragment extends Fragment {
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
             Log.d("dataset",value+" ");
+            if(mValues.length==1){
+                return mValues[0];
+            }
            if((int)value<=this.mValues.length-1)
             return mValues[(int)value];
+
            else return null;
         }
     }
 
 
-//    public void addDataSetToChart(){
-//        yValues.clear();
-//        for(int i=0;i<products.size();i++){
-//            yValues.add(new Entry(i,Float.parseFloat(products.get(i).getAmount())));
-//        }
-//    }
 
 
     // TODO: Rename method, update argument and hook method into UI event
