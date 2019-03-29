@@ -105,4 +105,15 @@ Credits
             ]]>
 
     </string>
+    <string-array name="unit_entries">
+        <item>Metric</item>
+        <item>English</item>
+    </string-array>
+
+
+    <string-array name="unit_values">
+        <item>kg</item>
+        <item>lb</item>
+    </string-array>
+
 </resources>

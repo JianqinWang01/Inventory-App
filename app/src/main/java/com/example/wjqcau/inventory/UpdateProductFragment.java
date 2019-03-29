@@ -2,6 +2,7 @@ package com.example.wjqcau.inventory;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -79,7 +81,7 @@ public class UpdateProductFragment extends Fragment {
     ImageView showImage;
     private static Intent i;
     ImageView produtImage;
-
+    SharedPreferences settingPref;
 
 
 
@@ -126,6 +128,7 @@ public class UpdateProductFragment extends Fragment {
               spinerList = new ArrayList<String>();
         MainActivity.addCategoryImage.setVisibility(View.INVISIBLE);
         fm=getFragmentManager();
+        settingPref=PreferenceManager.getDefaultSharedPreferences(getContext());
 
     }
 
@@ -141,8 +144,18 @@ public class UpdateProductFragment extends Fragment {
          priceInput=view.findViewById(R.id.updatePriceInput);
         amountInput=view.findViewById(R.id.updateAmountInput);
 
+        spinerList.clear();
+
+
         //add spinner
-        spinerList.add("lb");
+
+        if(settingPref.getString("unitkey","lb")!=null){
+            spinerList.add(settingPref.getString("unitkey","lb"));
+        }else{
+            spinerList.add("lb");
+        }
+
+
         spinerList.add("PKG");
         unitSpinner=(Spinner) view.findViewById(R.id.updateseclectUnit);
           ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
