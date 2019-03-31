@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity
          ContactFragment.OnFragmentInteractionListener,
          CreditFragment.OnFragmentInteractionListener,
          CreditItemFragment.OnFragmentInteractionListener,
-         SettingFragment.OnFragmentInteractionListener{
+         SettingFragment.OnFragmentInteractionListener,
+         PostFragment.OnFragmentInteractionListener{
     FragmentManager fm;
 //    public static ActionBar actionBar;
    public static AddProductFragment addProductFragment;
@@ -172,6 +173,9 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
             transaction.addToBackStack(null);
             transaction.replace(R.id.content,new StockWarningFragment());
+        }else if(id==R.id.nav_post){
+            transaction.addToBackStack(null);
+            transaction.replace(R.id.content,new PostFragment());
         }
 
         transaction.commit();
