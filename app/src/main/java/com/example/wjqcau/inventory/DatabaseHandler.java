@@ -217,6 +217,33 @@ public class DatabaseHandler extends SQLiteOpenHelper {
    }
 
 
+   public ArrayList<Product> getAllProducts(){
+       ArrayList<Product> products=new ArrayList<>();
+       SQLiteDatabase db=getReadableDatabase();
+       Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE_PRODUCT,null);
+       if(cursor.moveToFirst()){
+           do{
+
+               products.add(new Product(Integer.parseInt(cursor.getString(0)),
+                       cursor.getString(1),
+                       cursor.getString(2),
+                       cursor.getString(3),
+                       cursor.getString(4),
+                       cursor.getString(5),
+                       Integer.parseInt(cursor.getString(6))
+
+               )
+               );
+
+           }while(cursor.moveToNext());
+       }
+
+       db.close();
+      return  products;
+   }
+
+
+
     /**
      * @description Grab the product according its id
      * @param id  product id

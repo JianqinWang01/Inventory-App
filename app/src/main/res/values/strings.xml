@@ -116,4 +116,12 @@ Credits
         <item>lb</item>
     </string-array>
 
+
+    <string name="token">1111286187992514560-lK1pPKW68cX375aNVGbrqbm8n1VK5O</string>
+    <string name="tokenSecret">6wfp5xOFzsNQ65IqIFYxXS42QExE3M7F710xYPW9xpze8</string>
+    <string name="APIkey">4vm8VFCY0LiYSY0l7jRdopXW6</string>
+    <string name="APIkeySecrete">c7GgJEff6V8DQ55EksQpKTCbhpumE21elgwhbFcHhhZUz4bOGK</string>
+
+
+
 </resources>

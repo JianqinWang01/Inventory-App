@@ -1,12 +1,22 @@
 package com.example.wjqcau.inventory;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+
+import com.example.wjqcau.inventory.JavaBean.Product;
+
+import java.util.ArrayList;
 
 
 /**
@@ -28,6 +38,10 @@ public class PostFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    RecyclerView postRecyclerView;
+    private ArrayList<Product> products;
+   // public  static ProgressDialog dialog;
 
     public PostFragment() {
         // Required empty public constructor
@@ -58,13 +72,40 @@ public class PostFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+        DatabaseHandler db=new DatabaseHandler(getContext());
+
+        products=db.getAllProducts();
+        db.close();
+
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        MainActivity.addCategoryImage.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post, container, false);
+       View view=inflater.inflate(R.layout.fragment_post, container, false);
+
+
+
+
+       postRecyclerView=view.findViewById(R.id.postProductRecyclerView);
+       PostProductAdapter adapter=new PostProductAdapter(getContext(),products);
+        postRecyclerView.setAdapter(adapter);
+        postRecyclerView.setHasFixedSize(true);
+        postRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+      // dialog.show();
+
+
+
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
