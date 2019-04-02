@@ -1,4 +1,4 @@
-# Inventory Management
+# Inventory 
 A nice easy Adroid App for wholesale ower to manage products 
 # What does this app do
 1. Add and edit products in the inventory list easily
