@@ -1,28 +1,27 @@
 # Inventory 
 A nice easy Adroid App for wholesale ower to manage products 
-# What does this app do
+## What does this app do
 1. Add and edit products in the inventory list easily
 2. Search products with the support of  voice input
 3. Get related product price reference from walmart
 4. Provide stock warning while products with too less stock or too more stock
 5. Post product information Tweets to twitter
 6. Give easy way to contact author and set the app parameters
-# App Install requirement
+## App Install requirement
 * Android 6.0+ or Api 23+
 * Voice Search Engine or Google Play Service
-# How to use it
+## How to use it
 * Add and edit category and product
 ![Home Page](https://github.com/jonathonbauer/wbfitness/blob/readMe/images/home.png)
 <br/>
-![Body Mass Index](https://github.com/jonathonbauer/wbfitness/blob/readMe/images/bmi.png)
-![Contact](https://github.com/jonathonbauer/wbfitness/blob/readMe/images/contact.png)
+
 
 * Searching products
 * Products reference
 * Post products
 * Stock Warning
 * Setting
-# Credits
+## Credits
 #### Images
    https://www.flaticon.com/home
 #### SDK&API
@@ -32,7 +31,7 @@ A nice easy Adroid App for wholesale ower to manage products
 #### Technology Resource
 *  https://developer.android.com/               
 *  https://stackoverflow.com/
-# Liscence
+## Liscence
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
