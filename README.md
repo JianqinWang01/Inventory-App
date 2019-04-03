@@ -15,4 +15,15 @@ A nice easy Adroid App for wholesale ower to manage products
 ## Stock Warning
 ## Setting
 # Credits
+#### Images
+   https://www.flaticon.com/home
+#### SDK&API
+*   https://developer.walmartlabs.com/io-docs
+*   com.github.PhilJay:MPAndroidChart:v3.1.0-alpha
+*   org.twitter4j:twitter4j-core:4.0.2
+#### Technology Resource
+*  https://developer.android.com/               
+*  https://stackoverflow.com/
+
+   
 # Liscence
