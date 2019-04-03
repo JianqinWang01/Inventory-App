@@ -7,13 +7,16 @@ A nice easy Adroid App for wholesale ower to manage products
 4. Provide stock warning while products with too less stock or too more stock
 5. Post product information Tweets to twitter
 6. Give easy way to contact author and set the app parameters
+# App Install requirement
+* Android 6.0+ or Api 23+
+* Voice Search Engine or Google Play Service
 # How to use it
-## Add and edit category and product
-## Searching products
-## Products reference
-## Post products
-## Stock Warning
-## Setting
+* Add and edit category and product
+* Searching products
+* Products reference
+* Post products
+* Stock Warning
+* Setting
 # Credits
 #### Images
    https://www.flaticon.com/home
