@@ -13,7 +13,7 @@ A nice easy Adroid App for wholesale ower to manage products
 ## How to use it
 * Add and edit category and product
 ![Home Page](https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Home.gif = 200X400)
-
+<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Home.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Home.gif" width="200" height="400" />
 ## Credits
 #### Images
    https://www.flaticon.com/home
