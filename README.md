@@ -13,7 +13,7 @@ A nice easy Adroid App for wholesale ower to manage products
 ## How to use it
 <b>.Add and edit category and product</b> &nbsp; &nbsp;           <b>. Search Products</b><br/>
 <img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Home.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Home.gif" width="250" height="400" />&nbsp;<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Search.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Search.gif" width="250" height="400" /><br/>
-<b>.Price Reference<b/> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <b>. Stock Warning</b><br/><br>
+<b>.Price Reference<b/> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>. Stock Warning</b><br/><br>
 <img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Price_Reference.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Price_Reference.gif" width="250" height="400" />&nbsp;<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/StockWarning.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/StockWarning.gif" width="250" height="400" /><br/>
 
 <b>. Setting</b><br/>
