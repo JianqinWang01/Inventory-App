@@ -17,6 +17,11 @@ A nice easy Adroid App for wholesale ower to manage products
 <img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Search.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Search.gif" width="250" height="400" /><br/><br/>
 * Price Reference<br/><br/>
 <img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Price_Reference.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Price_Reference.gif" width="250" height="400" /><br/><br/>
+* Stock Warning<br/><br>
+<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/StockWarning.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/StockWarning.gif" width="250" height="400" /><br/><br/>
+
+* Setting<br/><br/>
+<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/setting.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/setting.gif" width="250" height="400" /><br/><br/>
 
 ## Credits
 #### Images
