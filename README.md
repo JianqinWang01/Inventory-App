@@ -13,19 +13,7 @@ A nice easy Adroid App for wholesale ower to manage products
 ## How to use it
 * Add and edit category and product
 ![Home Page](https://jwang.scweb.ca/PhotoServer/images/Home.gif)
-<br/><br/>
-* Searching products
-<br/>
-![Search](https://jwang.scweb.ca/PhotoServer/images/Search.gif)
-<br/><br/>
-* Price reference
-![Price reference](https://jwang.scweb.ca/PhotoServer/images/Search.gif)
-* Stock Warning
-![Price reference](https://jwang.scweb.ca/PhotoServer/images/StockWarning.gif)
-<br/>
-* Setting
-![Setting](https://jwang.scweb.ca/PhotoServer/images/setting.gif)
-<br/>
+
 ## Credits
 #### Images
    https://www.flaticon.com/home
