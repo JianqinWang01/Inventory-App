@@ -12,8 +12,8 @@ A nice easy Adroid App for wholesale ower to manage products
 * Voice Search Engine or Google Play Service
 ## How to use it
 * Add and edit category and product <br/>
-<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Home.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Home.gif" width="250" height="400" />
-<b>Search Products<b/><br/>
+<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Home.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Home.gif" width="250" height="400" /><b>Search Products<b/><br/>
+
 <img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Search.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Search.gif" width="250" height="400" /><br/><br/>
 * Price Reference<br/><br/>
 <img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Price_Reference.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Price_Reference.gif" width="250" height="400" /><br/><br/>
