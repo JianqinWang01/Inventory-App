@@ -11,7 +11,7 @@ A nice easy Adroid App for wholesale ower to manage products
 * Android 6.0+ or Api 23+
 * Voice Search Engine or Google Play Service
 ## How to use it
-* Add and edit category and product
+* Add and edit category and product <br/>
 <img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Home.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Home.gif" width="200" height="400" /><br/>
 ## Credits
 #### Images
