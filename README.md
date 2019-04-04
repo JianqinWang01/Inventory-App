@@ -20,15 +20,15 @@ A nice easy Adroid App for wholesale ower to manage products
 <img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/setting.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/setting.gif" width="250" height="400" /><br/>
 
 ## Credits
-#### Images
-   https://www.flaticon.com/home
-#### SDK&API
-*   https://developer.walmartlabs.com/io-docs
-*   com.github.PhilJay:MPAndroidChart:v3.1.0-alpha
-*   org.twitter4j:twitter4j-core:4.0.2
-#### Technology Resource
-*  https://developer.android.com/               
-*  https://stackoverflow.com/
+* Images<br/>
+   https://www.flaticon.com/home<br/>
+* SDK&API<br/>
+    https://developer.walmartlabs.com/io-docs<br/>
+    com.github.PhilJay:MPAndroidChart:v3.1.0-alpha<br/>
+    org.twitter4j:twitter4j-core:4.0.2<br/>
+* Technology Resource<br/>
+  https://developer.android.com/<br/>               
+   https://stackoverflow.com/<br/>
 ## Liscence
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
