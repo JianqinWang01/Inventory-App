@@ -81,17 +81,12 @@ Credits
                 <br/ >
                 <br/ >
 
-               https://developer.android.com/
-                <br/>
-                <br/>
-                https://stackoverflow.com/
-                <br/>
-                <br/>
+
 
 
             ]]>
     </string>
-    <string name="credits_header_github">GitHub</string>
+    <string name="credits_header_github">Technology</string>
     <string name="credits_github_description">
          <![CDATA[
 
@@ -101,6 +96,12 @@ Credits
                 <br/>
                 <br/>
 
+               https://developer.android.com/
+                <br/>
+                <br/>
+                https://stackoverflow.com/
+                <br/>
+                <br/>
 
             ]]>
 
