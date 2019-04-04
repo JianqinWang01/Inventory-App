@@ -27,8 +27,8 @@ A nice easy Adroid App for wholesale ower to manage products
     com.github.PhilJay:MPAndroidChart:v3.1.0-alpha<br/>
     org.twitter4j:twitter4j-core:4.0.2<br/>
 * Technology Resource<br/>
-  https://developer.android.com/<br/>               
-   https://stackoverflow.com/<br/>
+  https://developer.android.com/              
+   https://stackoverflow.com/
 ## Liscence
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
