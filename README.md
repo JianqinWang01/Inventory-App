@@ -12,8 +12,8 @@ A nice easy Adroid App for wholesale ower to manage products
 * Voice Search Engine or Google Play Service
 ## How to use it
 * Add and edit category and product
-![Home Page](https://github.com/jonathonbauer/wbfitness/blob/readMe/images/home.png)
-<br/>
+![Home Page](https://jwang.scweb.ca/PhotoServer/images/Home.gif)
+<br/><br/>
 
 
 * Searching products
