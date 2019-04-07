@@ -46,6 +46,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -199,7 +200,12 @@ public class AddProductFragment extends Fragment {
         addProductButtton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Product product=new Product(nameInput.getText().toString(),priceInput.getText().toString(),
+               // DecimalFormat df = new DecimalFormat("#.##");
+                Float price=Float.parseFloat(priceInput.getText().toString());
+               // String formattedPrice = df.format(price);
+                String formattedPrice=String.format("%.2f",price);
+              Log.d("PriceFormat",formattedPrice);
+                Product product=new Product(nameInput.getText().toString(),formattedPrice,
                         amountInput.getText().toString(),ImageURL,unitSpinner.getSelectedItem().toString(),
                         CategoryProductAdapter.categoryId);
               // Log.d("ChoiceIs",unitSpinner.getSelectedItem().toString());
