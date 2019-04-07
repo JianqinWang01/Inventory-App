@@ -24,6 +24,7 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.ProductItemViewHolder> {
@@ -100,6 +101,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
       Product product=prodList.get(i);
       productItemViewHolder.prodName.setText(product.getName());
+
+
+
       productItemViewHolder.prodPrice.setText(product.getPrice());
       productItemViewHolder.unitPrice.setText("/"+product.getUnit());
      //After setting shared preference it will show
