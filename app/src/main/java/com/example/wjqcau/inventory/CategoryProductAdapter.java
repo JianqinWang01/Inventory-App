@@ -22,6 +22,11 @@ import com.example.wjqcau.inventory.JavaBean.ProductCategory;
 
 import java.util.ArrayList;
 
+/**
+ * @author wjqcau
+ *
+ */
+
 public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProductAdapter.CategoryProductViewHolder> {
     private static int productRecyclerViewHeight;
     private static int countIndex=0;

@@ -64,19 +64,31 @@ import static android.app.Activity.RESULT_OK;
  * create an instance of this fragment.
  */
 public class AddProductFragment extends Fragment {
+    //Declare the FragmentManager for fragment transition
     FragmentManager fm;
+    //Declare the components in the AddFragment
+    //user's input price
     EditText priceInput;
-     EditText amountInput;
-      EditText nameInput;
-      String ImageURL="";
+    //user's input stock amount
+    EditText amountInput;
+    //user's input product name
+
+    EditText nameInput;
+    //Image UrL
+
+    String ImageURL="";
       Spinner unitSpinner;
     List<String> spinerList;
-    //Define variables for take photos
+    //Define variables for taking photos
     private  int productMaxId;
+    //Declare the encoded_string is the compressed value of the image
     private String encoded_string,image_name;
+    //Declare the bitmap object to hold the image taking from the camera
     private Bitmap bitmap;
+    //Declare the image file and the file's uri
     private File file;
     private  Uri file_uri;
+    //declare the intent code which will send to the Activity_result method
     public static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE=10;
     ImageView showImage;
     private static  Intent i;
@@ -124,10 +136,12 @@ public class AddProductFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        //set the Addproduct icon visible
         MainActivity.addCategoryImage.setVisibility(View.INVISIBLE);
+        //Initialize the fragmentmanger object and spinnerList
         fm=getFragmentManager();
         spinerList = new ArrayList<String>();
-        //addUnitSpinner();
+        //initialize the user's setting value for Shared Preference file
         settingPref=PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
@@ -138,84 +152,89 @@ public class AddProductFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
       View view =  inflater.inflate(R.layout.fragment_add_product, container, false);
+     //Clear the spinner list because each time the user can change the setting value and load again
      spinerList.clear();
       //add spinner
        if(settingPref.getString("unitkey","lb")!=null){
+           //if user setting the product unit, then assign the value
            spinerList.add(settingPref.getString("unitkey","lb"));
        }else{
+           //if user's didnot setting the value, assign the default value
            spinerList.add("lb");
        }
-
+       //PKG is the package unit, not the weight unit
         spinerList.add("PKG");
 
         unitSpinner = (Spinner) view.findViewById(R.id.seclectUnit);
+        //set the default selection position is "0"
         unitSpinner.setSelection(0);
-//        unitSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//            }
-//        });
+       //Declare the spinner adapter
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, spinerList);
+        //setting the spinner adapter's style
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(dataAdapter);
+        //Retrieve the components from the AddProductFragment view
         Button addProductButtton=view.findViewById(R.id.addProductButton);
         priceInput=view.findViewById(R.id.addproductPriceInput);
          amountInput=view.findViewById(R.id.addproductAmountInput);
         nameInput=view.findViewById(R.id.addproductNameInput);
-
         showProductImage=view.findViewById(R.id.addProductImage);
         showProductImage.setImageResource(R.drawable.camera);
-
         Button takePhotoButton=view.findViewById(R.id.takePhotoButton);
+
+        //Add clickListener to the takePhotoButton
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //We use the new inserted id plus extention as the picture name
+                //Step1: get  Max product id from database
                 DatabaseHandler db=new DatabaseHandler(getContext());
+                //Step 2: add 1 , so the productMaxId is the newest inserting product's id
               productMaxId=db.getProductMaxId()+1;
               db.close();
-             Log.d("Image_URL",productMaxId+"");
+            //Step 3:Integrate the Image URL which consist of the remote Server's folder,product's id and extension
              ImageURL="https://jwang.scweb.ca/PhotoServer/images/"+productMaxId+".jpg";
-
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
+                //Initialize the intent with the taking photo's intent
                 i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //Assign the name to the variable
                 image_name=productMaxId+".jpg";
               //Create local file Uri
                 file=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+
                         File.separator+image_name);
                 file_uri= Uri.fromFile(file);
-                 Log.w("FileUri",file_uri.toString());
+                //Step 4: put value to intent
                i.putExtra(MediaStore.EXTRA_OUTPUT,file_uri);
+               //Call the Activity_resutl, while passing the Request_code
                 startActivityForResult(i,CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
-
-
 
             }
         });
 
-
-
+        //Add button event listener, when user click the button, all the information will be stored in the database and
+        //show the product in the HomeScreen
         addProductButtton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // DecimalFormat df = new DecimalFormat("#.##");
+               // get the float value of the user's input
                 Float price=Float.parseFloat(priceInput.getText().toString());
-               // String formattedPrice = df.format(price);
+               // Format the value with the fixed format, keeping 2 digital decimal
                 String formattedPrice=String.format("%.2f",price);
-              Log.d("PriceFormat",formattedPrice);
+                //Initialize the product object
                 Product product=new Product(nameInput.getText().toString(),formattedPrice,
                         amountInput.getText().toString(),ImageURL,unitSpinner.getSelectedItem().toString(),
                         CategoryProductAdapter.categoryId);
-              // Log.d("ChoiceIs",unitSpinner.getSelectedItem().toString());
+              // Save  the new product object to the database
                DatabaseHandler db=new DatabaseHandler(getContext());
                db.addProduct(product);
                db.close();
-
+              //Clear all the user's input, including name,price,and amount
                nameInput.setText("");
                priceInput.setText("");
                amountInput.setText("");
+               //Transfer to HomeScreen
                 FragmentTransaction transaction=fm.beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.content,new HomeFragment());
@@ -235,21 +254,21 @@ public class AddProductFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //If the app doesn't get the permission
         if(requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode== RESULT_OK) {
-            //Toast.makeText(getContext(), "No", Toast.LENGTH_LONG).show();
-            Log.d("Result_call","enterResult");
-            // new Encode_Image().execute();
-
+           //If this request is sent by taking photos and the intent start is ok
+            //If the app doesn't get the permission
             if(ContextCompat.checkSelfPermission(getActivity(),
                     android.Manifest.permission.READ_EXTERNAL_STORAGE)
                     !=PackageManager.PERMISSION_GRANTED)
-            {
+            {  //App lauch first tim
+                //Ask the user to allow to use camera
                 if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                         android.Manifest.permission.READ_EXTERNAL_STORAGE)){
 
                 }else {
-                    Log.d("PermissionFirst","PermissionFirstTime");
-                    // new Encode_Image().execute();
+
+                  //If the user's have allowed the permission, ask the activity to execute background task
                     ActivityCompat.requestPermissions(getActivity(),
                             new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
                             666);
@@ -257,10 +276,11 @@ public class AddProductFragment extends Fragment {
 
 
             }else{
-                Log.d("PermissionSecond","PermissionSecondTime");
-
+                //For the second time, user have get the permission
+               //Declare the background object and then execute the asynchronized task which will compress the image
+                //and upload the image to Scweb Server
                 new Encode_Image().execute();
-                Log.d("LocalURL",file_uri.getPath());
+               //Load the remote image on the server into showProductImage (Imageview)
                 Picasso.with(getContext())
                         .load("file://"+file_uri.getPath()).memoryPolicy(MemoryPolicy.NO_CACHE).
                         networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.chicken).
@@ -269,67 +289,68 @@ public class AddProductFragment extends Fragment {
             }
 
         }else{
+            //If the user deny the permission, show the result
             Toast.makeText(getContext(),"Permission denied!",Toast.LENGTH_LONG).show();
         }
     }
 
     /**
+     * @author wjqcau
      * Inner class used to compressed image and upload to server
      */
     public class Encode_Image extends AsyncTask<Void,Void,Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
+           //Step 1 :Get the bitmap from the local device
             bitmap = BitmapFactory.decodeFile(file_uri.getPath());
-            Log.d("BitMap",bitmap == null?"Empty":"Good");
-
-
-            //showImage.setImageBitmap(bitmap);
-            // Log.d("showError",file_uri.getPath());
+            //Declare the outputstream to transfer the image
             ByteArrayOutputStream stream=new ByteArrayOutputStream();
+            //compress the bitmap format iamge to jpg format
             bitmap.compress(Bitmap.CompressFormat.JPEG,1,stream);
             byte[] array=stream.toByteArray();
+            //Encoding the data from byte data style to String style
             encoded_string=Base64.encodeToString(array,0);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            //call the background method above
             super.onPostExecute(aVoid);
+            //Call the request method below
             makeRequest();
 
         }
     }
     private  void makeRequest(){
+        //Define a requestQueue object
         RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+        //Define the request object which will hold the information to upload to server
         StringRequest request=new StringRequest(Request.Method.POST, Config.FILE_UPLOAD_URL,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response) {
-
-                        //add method here
-                    }
+                    public void onResponse(String response) {}
                 }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
+            public void onErrorResponse(VolleyError error) {}
         }){
             @Override
+            //Declare method to get the map object to hold the parameter's
             protected Map<String, String> getParams() throws AuthFailureError {
-                // return super.getParams();
+                // declare the hashmap
                 HashMap<String,String> map=new HashMap<>();
                 map.put("encoded_string",encoded_string);
                 map.put("image_name",image_name);
                 return  map;
             }
         };
+        //Add the task to task queue
         requestQueue.add(request);
 
 
     }
-
+//This method built for outer module to call it(In mainactivity )
 public void ExecuteImageUpload(){
     new Encode_Image().execute();
     //download picture from server

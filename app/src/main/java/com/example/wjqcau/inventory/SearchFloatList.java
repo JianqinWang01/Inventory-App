@@ -53,11 +53,11 @@ public class SearchFloatList extends BottomSheetDialogFragment {
         currenySign.setText("$");
         unit.setText(product.getUnit());
         unitPrice.setText("/"+product.getUnit());
-        Picasso.with(getContext())
-                .load(product.getImageUrl()).memoryPolicy(MemoryPolicy.NO_CACHE).
-                networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.chicken).
-                into(produtImage);
-
+//        Picasso.with(getContext())
+//                .load(product.getImageUrl()).memoryPolicy(MemoryPolicy.NO_CACHE).
+//                networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.chicken).
+//                into(produtImage);
+Picasso.with(getContext()).load(product.getImageUrl()).error(R.drawable.chicken).into(produtImage);
 
       categoryNameView.setText(categoryName);
 

@@ -3,14 +3,23 @@ package com.example.wjqcau.inventory.JavaBean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * @author wjq
+ * Mainly descript the products under a certain category
+ */
 public class Product implements Parcelable {
+   //product id
     int id;
+    //category id this product belongs to
     int categoryID;
+    //product name ,price,amount
     String name;
     String price;
     //int prodImage;
     String amount;
+    //Image URL in stored
     String imageUrl;
+    //product unit
     String unit;
 
     public String getAmount() {
@@ -20,8 +29,9 @@ public class Product implements Parcelable {
     public void setAmount(String amount) {
         this.amount = amount;
     }
-
+   //default constructor
     public Product(){}
+    //customered constructor
     public Product(String name,String price,String amount,String imageUrl,String unit,int cateoryId){
         this.name = name;
         this.price = price;
@@ -30,7 +40,7 @@ public class Product implements Parcelable {
         this.categoryID=cateoryId;
         this.unit=unit;
     }
-
+   //custormered constructor
     public Product(String name, String price, String amount,String imageUrl,String unit) {
 
         this.name = name;
@@ -47,7 +57,7 @@ public class Product implements Parcelable {
     public void setUnit(String unit) {
         this.unit = unit;
     }
-
+    //custormered constructor
     public Product(int id, String name, String price, String amount, String imageUrl, String unit,int categoryID) {
         this.id = id;
         this.name = name;
@@ -60,7 +70,7 @@ public class Product implements Parcelable {
     }
 
 
-
+ //getter and setter method
 
     public int getId() {
         return id;
@@ -107,6 +117,12 @@ public class Product implements Parcelable {
         return 0;
     }
 
+    /**
+     *
+     * @param dest
+     * @param flags
+     * implement the parcel interface
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
@@ -127,7 +143,7 @@ public class Product implements Parcelable {
         this.imageUrl = in.readString();
         this.unit = in.readString();
     }
-
+  //Creator in object
     public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {
         @Override
         public Product createFromParcel(Parcel source) {

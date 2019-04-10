@@ -59,7 +59,9 @@
         android:layout_width="match_parent"
         android:layout_height="345dp"
         android:layout_margin="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layoutAnimation="@anim/post_product_layout"
+        >
 
     </android.support.v7.widget.RecyclerView>
 

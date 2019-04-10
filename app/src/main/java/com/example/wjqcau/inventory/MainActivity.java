@@ -21,7 +21,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-
+/**
+ * @author wjqcau
+ * The application entry
+ * Which control the whole framework of the app
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         HomeFragment.OnFragmentInteractionListener,
@@ -35,11 +39,11 @@ public class MainActivity extends AppCompatActivity
          CreditItemFragment.OnFragmentInteractionListener,
          SettingFragment.OnFragmentInteractionListener,
          PostFragment.OnFragmentInteractionListener{
-    FragmentManager fm;
-//    public static ActionBar actionBar;
+        FragmentManager fm;
+//  Declare a static fragement for resued its public method
    public static AddProductFragment addProductFragment;
-  // public static SearchFragment searchFragment;
-    //Declare a globe for add category
+
+    //Declare a global variable for add category
    public static ImageView addCategoryImage;
    //Declare a global variable for search product
   //  public static ImageView searchProductImage;
@@ -74,7 +78,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //Initialize the fragmentManager
         fm=getSupportFragmentManager();
+        //Transfer From Actity_main layout to Home screen
          final FragmentTransaction transaction=fm.beginTransaction();
         transaction.addToBackStack(null);
         transaction.replace(R.id.content,new HomeFragment());
@@ -82,12 +88,16 @@ public class MainActivity extends AppCompatActivity
         //Delete the app name from header
           actionBar= getSupportActionBar();
         actionBar.setTitle("");
+
+        //Retrieve the add category Icon on the toolbar container
         addCategoryImage=(ImageView)toolbar.findViewById(R.id.addCategoryImage);
+
+        //Retrieve the search icon on the Toolbar container
         searchProductImage=(ImageView)toolbar.findViewById(R.id.searchProductImage);
       addProductFragment=new AddProductFragment();
     //  searchFragment=new SearchFragment();
 
-       // searchView = (MaterialSearchView) findViewById(R.id.search_view);
+       //While user click the search Icon on the toolbar , The Screen will launch to Search Fragment
      searchProductImage.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
@@ -126,15 +136,7 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
 
         int id = item.getItemId();
-//         if(id==R.id.action_search){
-//
-//             FragmentTransaction transaction=fm.beginTransaction();
-//               transaction.replace(R.id.content,new SearchFragment());
-//               transaction.addToBackStack(null);
-//               transaction.commit();
-//         }
-//
-//       Log.d("ItemChoice","go there");
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -143,14 +145,16 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        //Declare the FragmentTransaction object
         FragmentTransaction transaction=fm.beginTransaction();
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            // Navitation to home Fragment
             transaction.addToBackStack(null);
             transaction.replace(R.id.content,new HomeFragment());
 
 
         } else if (id == R.id.nav_contact) {
+            //Navigation to Contact Fragment
          transaction.addToBackStack(null);
          transaction.replace(R.id.content,new ContactFragment());
 
@@ -159,18 +163,21 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.content,new CreditFragment());
 
         } else if (id == R.id.nav_setting) {
+            //Navigation to setting fragment
             transaction.addToBackStack(null);
+            //add animation to setting preference list
             transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
            //transaction.add(R.id.content,new SettingFragment(),"settingpage");
             transaction.replace(R.id.content,new SettingFragment());
 
         } else if (id == R.id.nav_priceRef) {
+            //Navigation to Price Reference fragment
             transaction.addToBackStack(null);
             transaction.replace(R.id.content,new PriceReferFragment());
 
         } else if (id == R.id.nav_warning) {
 
-            // Handle the camera action
+            //Navigation to Stock Warning fragment
             transaction.addToBackStack(null);
             transaction.replace(R.id.content,new StockWarningFragment());
         }else if(id==R.id.nav_post){
@@ -188,24 +195,29 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    /**
+     *
+     * @param requestCode code which dispatches different permission request
+     * @param permissions permission arrays in manifest.xml
+     * @param grantResults  arrays hold the user's grants permission
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         switch (requestCode){
+            //666 stands for camera requests from AddProductFragment
             case 666:
                 if(grantResults.length>0&&
                         grantResults[0]==PackageManager.PERMISSION_GRANTED){
 
                     if(addProductFragment!=null){
-                        Log.d("ExecuteNew:","goodMan");
-                        addProductFragment.ExecuteImageUpload();}
+                        //call the asynchonization background running method
+                       addProductFragment.ExecuteImageUpload();}
                 }else{
-
+                // else do nothing
                 }
                 break;
-
-
-
 
         }
     }
