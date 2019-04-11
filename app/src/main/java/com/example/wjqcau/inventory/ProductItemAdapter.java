@@ -114,7 +114,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
                 .load(product.getImageUrl()).memoryPolicy(MemoryPolicy.NO_CACHE).
                 networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.chicken).
                 into(productItemViewHolder.prodImage);
-       // Picasso.with(context).load(product.getImageUrl()).into(productItemViewHolder.prodImage);
+      //Picasso.with(context).load(product.getImageUrl()).into(productItemViewHolder.prodImage);
        // productItemViewHolder.prodImage.setImageResource(product.getProdImage());
       productItemViewHolder.prodAmount.setText(product.getAmount());
 

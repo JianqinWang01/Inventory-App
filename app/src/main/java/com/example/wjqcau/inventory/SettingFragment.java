@@ -44,19 +44,23 @@ public class SettingFragment extends PreferenceFragmentCompat  {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    //delcare three preference for setting
     android.support.v7.preference.Preference unitPreference;
    android.support.v7.preference.Preference stockLinePreference;
    android.support.v7.preference.Preference exitPreference;
-
+    //delcare customerized dialog for stock warning low line value and high line value
     Dialog stockSettingDialog;
+    //delcare button and image icon to close or operate on the dialog
    Button cancelButton;
    Button setButton;
    ImageView closeSettingImage;
+   //declare edit text to input the low and high value limit
    EditText lowInput;
    EditText hightInput;
 
-
+    //declare the system default shared preference
     SharedPreferences stockSharedPref;
+    //declare the editor for shared preference
     SharedPreferences.Editor editor;
 
     public SettingFragment() {
@@ -88,76 +92,79 @@ public class SettingFragment extends PreferenceFragmentCompat  {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+      //initialize the stocksetting dialog
         stockSettingDialog=new Dialog(getContext());
         //Toast.makeText(getApplicationContext(),"hello",Toast.LENGTH_SHORT).show();
         stockSettingDialog.setContentView(R.layout.set_stock_warning_layout);
         stockSettingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-
-
-
+        //Initialize the system default sharedPreference
         stockSharedPref=PreferenceManager.getDefaultSharedPreferences(getContext());
-       editor=stockSharedPref.edit();
-
+         editor=stockSharedPref.edit();
+         //Initialize the button component in the stocksetting dialog
         cancelButton=stockSettingDialog.findViewById(R.id.setting_cancel);
-
         setButton=stockSettingDialog.findViewById(R.id.setting_setting);
+        //Initialize the textinut
         lowInput=stockSettingDialog.findViewById(R.id.lowstockinput);
         hightInput=stockSettingDialog.findViewById(R.id.highstockInput);
         closeSettingImage=stockSettingDialog.findViewById(R.id.close_setting);
 //      if(closeSettingImage!=null){
 //         // closeSettingImage.setVisibility(View.INVISIBLE);
 //        Log.d("CloseImage","hello");}
-
+        /**
+         * The event method to close the dialog
+         */
         closeSettingImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 stockSettingDialog.dismiss();
             }
         });
+        //The event method to close the dialog ,if user choose cancal button
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 stockSettingDialog.dismiss();
             }
         });
-
+      //If user click set the value, the value will be write to the shared preference file
         setButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("CloseImage","pipi");
+               // Log.d("CloseImage","pipi");
                 String lowStock=lowInput.getText().toString().trim();
                 String highStock=hightInput.getText().toString().trim();
+                //Write to the System default preference.
                 editor.putString("lowStockLine",lowStock);
                 editor.putString("highStockLine",highStock);
                 editor.commit();
                 stockSettingDialog.dismiss();
-
-
             }
         });
 
 
     }
 
+    /**
+     *
+     * @param bundle
+     * @param s
+     * Show all the setting preference lists in window
+     */
+
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
-
-
-
-   addPreferencesFromResource(R.xml.setting_layout);
-
-   unitPreference= getPreferenceManager().findPreference("unitkey");
-
-
-
-   stockLinePreference=getPreferenceManager().findPreference("stockwarningkey");
-   stockLinePreference.setOnPreferenceClickListener(new android.support.v7.preference.Preference.OnPreferenceClickListener() {
+        //load the prefence layout
+        addPreferencesFromResource(R.xml.setting_layout);
+        //retrieve the preference list using "key"
+       unitPreference= getPreferenceManager().findPreference("unitkey");
+       stockLinePreference=getPreferenceManager().findPreference("stockwarningkey");
+       //show the stocksetting dialog if user choose the preference item.
+      stockLinePreference.setOnPreferenceClickListener(new android.support.v7.preference.Preference.OnPreferenceClickListener() {
        @Override
        public boolean onPreferenceClick(android.support.v7.preference.Preference preference) {
 
           stockSettingDialog.show();
+          //Initialize the lowstockLine and highStockLine value from the sharedpreference file
         if(stockSharedPref.getString("lowStockLine","")!=null){
             lowInput.setText(stockSharedPref.getString("lowStockLine",""));
         }
@@ -169,13 +176,15 @@ public class SettingFragment extends PreferenceFragmentCompat  {
        }
    });
 
-
-
+   //Retrieve the exit preference
    exitPreference=getPreferenceManager().findPreference("exitkey");
-
+        /**
+         * Show the exit dialog if user click the preference list
+         */
    exitPreference.setOnPreferenceClickListener(new android.support.v7.preference.Preference.OnPreferenceClickListener() {
        @Override
        public boolean onPreferenceClick(android.support.v7.preference.Preference preference) {
+           //Customerize the dialog
           Log.d("exitpreference","i get it");
            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
            alertDialogBuilder.setTitle("Exit Application?");
@@ -186,6 +195,7 @@ public class SettingFragment extends PreferenceFragmentCompat  {
                            new DialogInterface.OnClickListener() {
                                public void onClick(DialogInterface dialog, int id) {
                                    //moveTaskToBack(true);
+                                   //Exit the system
                                    android.os.Process.killProcess(android.os.Process.myPid());
                                    System.exit(1);
                                }
@@ -197,7 +207,7 @@ public class SettingFragment extends PreferenceFragmentCompat  {
                            dialog.cancel();
                        }
                    });
-
+          //show the AlertDialog
            AlertDialog alertDialog = alertDialogBuilder.create();
            alertDialog.show();
 
