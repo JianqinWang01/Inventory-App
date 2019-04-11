@@ -5,9 +5,10 @@ A nice easy Adroid App for wholesale ower to manage products
 ## Detailed Description
 The app let user add and edit products in the inventory list easily. User can search products with the support of voice input and get related product price reference from Walmart. It provides stock warning while products with too less stock or too more stock. User can tweet product information to twitter.
 ## Logo
-<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Price_Reference.gif" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Price_Reference.gif" width="512" height="512" />
+<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Inventory_Logo.png" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Inventory_Logo.png" width="512" height="512" /><br/>
 ## ScreenShort
 ## FeturedImage
+<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/FeturedImage.png" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/FeturedImage.png" width="1024" height="500" /><br/>
 ## App Install requirement
 * Android 6.0+ or Api 23+
 * Voice Search Engine or Google Play Service
