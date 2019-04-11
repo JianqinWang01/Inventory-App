@@ -145,7 +145,11 @@ public class SearchFragment extends Fragment {
                     Log.d("VoiceRun","hello1");
 
                   //startActivity(intent);
-                  startActivityForResult(intent,VOICE_REQUEST_CODE);
+                if(intent.resolveActivity(getActivity().getPackageManager()) != null)
+                {startActivityForResult(intent,VOICE_REQUEST_CODE);}
+                else{
+                    Toast.makeText(getContext(),"There is no voice driver",Toast.LENGTH_LONG).show();
+                }
 
             }
         });
