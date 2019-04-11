@@ -7,6 +7,8 @@ The app let user add and edit products in the inventory list easily. User can se
 ## Logo
 <img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Inventory_Logo.png" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Inventory_Logo.png" width="512" height="512" /><br/>
 ## ScreenShort
+<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Screenshot_Home.jpg" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Screenshot_Home.jpg" width="250" height="400" />&nbsp;<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Screenshot_PriceReference.jpg" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Screenshot_PriceReference.jpg" width="250" height="400" />&nbsp;
+<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Screenshot_Search.jpg" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Screenshot_Search.jpg" width="250" height="400" />&nbsp;<img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Screenshot_StockWarning.jpg" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/Screenshot_StockWarning.jpg" width="250" height="400" /><br/>
 ## FeturedImage
 <img src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/FeturedImage.png" data-canonical-src="https://github.com/JianqinWang01/Inventory-App/blob/master/Images/FeturedImage.png" width="1024" height="500" /><br/>
 ## App Install requirement
