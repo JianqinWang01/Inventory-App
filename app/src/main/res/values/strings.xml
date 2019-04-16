@@ -66,24 +66,17 @@ Credits
     </string>
     <string name="credits_header_api">API SDK and Techology</string>
     <string name="credits_api_description">
-         <![CDATA[
-
+        <![CDATA[
+               <br/>
                 https://developer.walmartlabs.com/io-docs
-                 <br/ ><br/>
-                 <br/ >
+                 <br/>
+                 <br/>
                 com.github.PhilJay:MPAndroidChart:v3.1.0-alpha
                  <br/>
                  <br/>
                 jp.wasabeef:picasso-transformations:2.1.0
                 <br/>
                 <br/>
-                <b>Developer Technology</b>
-                <br/ >
-                <br/ >
-
-
-
-
             ]]>
     </string>
     <string name="credits_header_github">Technology</string>
