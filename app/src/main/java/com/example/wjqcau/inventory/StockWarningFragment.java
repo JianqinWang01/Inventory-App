@@ -32,6 +32,8 @@ import java.util.ArrayList;
 
 
 /**
+ * @author wjqcau
+ * Date created:2019-03-12
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link StockWarningFragment.OnFragmentInteractionListener} interface
@@ -50,16 +52,19 @@ public class StockWarningFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    //Declare the category arraylist
    private ArrayList<ProductCategory> categories;
+   //declare the spinner
    Spinner cateSpinner;
-   //private ArrayList<String> categoryNames;
+   //declare the product arraylist
    private ArrayList<Product> products;
+   //Declare the LineChart object
     LineChart mChart;
-
-
+   //Declare the view
     View  fragmentView;
-
+ //Delare the Shareprefernece file
    SharedPreferences settingPref;
+   //Declare two variables to how the low and high values
    float lowStockLine,highStockLine;
     public StockWarningFragment() {
         // Required empty public constructor
@@ -90,8 +95,9 @@ public class StockWarningFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        //Define the arraylist
         categories=new ArrayList<>();
-
+      //define the sharedpreference
       settingPref=PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
@@ -100,33 +106,40 @@ public class StockWarningFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentView=inflater.inflate(R.layout.fragment_stock_warning, container, false);
+        //Get he categories from database
         DatabaseHandler db=new DatabaseHandler(getContext());
         categories=db.getAllCategories();
         db.close();
         cateSpinner=(Spinner)fragmentView.findViewById(R.id.spinner);
-
-//        for(ProductCategory category : categories){
-//            categoryNames.add(category.getTitle());
-//        }
+        //Define the adapter for spinner
         ArrayAdapter<ProductCategory> dataAdapter = new ArrayAdapter<ProductCategory>(getActivity(),
                 android.R.layout.simple_spinner_item, categories);
+        //Set the spinner with the layout
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //set the spinner adapter
         cateSpinner.setAdapter(dataAdapter);
+        //get the button component
         Button choiceCategoryButton=fragmentView.findViewById(R.id.choiceCategory);
+        //Get the LineChart object accroding its id in the view
         mChart=(LineChart)fragmentView.findViewById(R.id.LineChart);
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
+        //If user alread setting the value
        if(settingPref.getString("lowStockLine","10")!=null){
+           //Get he low value
            lowStockLine=Float.parseFloat(settingPref.getString("lowStockLine","10"));
-       }
+       }//else set the default value with
        else lowStockLine=10f;
+       //if user set the hight value
        if(settingPref.getString("highStockLine","40")!=null){
+           //get the high value
            highStockLine=Float.parseFloat(settingPref.getString("highStockLine","40"));
        }else{
+           //esle give the default value
            highStockLine=35f;
        }
 
-
+      //set the button event for create the line chart
         choiceCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,89 +150,99 @@ public class StockWarningFragment extends Fragment {
                // Log.d("productList",products.size()+"");
                 ArrayList<Entry> yValues=new ArrayList<>();
                 yValues.clear();
+                //Set the Y axis value
                 for(int i=0;i<products.size();i++){
                     yValues.add(new Entry((float) i,Float.parseFloat(products.get(i).getAmount())));
                 }
-               //addDataSetToChart();
-
+               //add DataSet ToChart;
                 LineDataSet dataSetSet1=new LineDataSet(yValues,category.getTitle());
+                //set the color ,alpha
                 dataSetSet1.setFillAlpha(110);
                 dataSetSet1.setColor(Color.GREEN);
+                //set the line width
                 dataSetSet1.setLineWidth(3f);
+                //set the text font
                 dataSetSet1.setValueTextSize(15f);
+                //set the text color
                 dataSetSet1.setValueTextColor(Color.RED);
+                //set the circle color
                 dataSetSet1.setCircleColor(Color.BLACK);
 
-                //add Limitation
+                //add Limitation line for high and low line
                 LimitLine limitLineHigh=new LimitLine(highStockLine,"Too Much Stock");
+               //set he hight line width
                 limitLineHigh.setLineWidth(4f);
+                //set the line with the dashed type
                 limitLineHigh.enableDashedLine(10f,10f,0);
+                //set the label position
                 limitLineHigh.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
                 limitLineHigh.setTextSize(10f);
-
+               //Define the low line
                 LimitLine limitLineLow=new LimitLine(lowStockLine,"Too Less Stock");
+                //set the line width
                 limitLineLow.setLineWidth(4f);
+                //set he line dashed style
                 limitLineLow.enableDashedLine(10f,10f,0);
+                //set the lable position
                 limitLineLow.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
                 limitLineLow.setTextSize(10f);
-
+                //Define the Axis of Y
                 YAxis leftAxis=mChart.getAxisLeft();
+                //remove default value
                 leftAxis.removeAllLimitLines();
+                //add two new line to the axis
                 leftAxis.addLimitLine(limitLineHigh);
                 leftAxis.addLimitLine(limitLineLow);
 
-
+                //set the axis minimum and max value
                 leftAxis.setAxisMaximum(50f);
                 leftAxis.setAxisMinimum(5f);
+                //Set the style with grid line
                 leftAxis.enableGridDashedLine(10f,10f,10);
                 leftAxis.setDrawLimitLinesBehindData(true);
                 mChart.getAxisRight().setEnabled(false);
-              //set product title
 
+                //set product title in an arraylist
+               //using loop
                 String[] values=new String[products.size()];
                 for(int i=0;i<products.size();i++){
                     values[i]=products.get(i).getName();
-                    Log.d("productname",values[i]);
-                }
+                   }
 
-
-
+                 //add the view with this axix
                 XAxis xAxis=mChart.getXAxis();
+                //set the valueformat
                 xAxis.setValueFormatter(new MyXAxisFormatter(values));
                 xAxis.setGranularity(1f);
-
-
-
+                //Define the datasets
                 ArrayList<ILineDataSet> dataSets=new ArrayList<>();
+                //add the dataset1 in the dataset
                 dataSets.add(dataSetSet1);
+                //load the data
                 LineData data=new LineData(dataSets);
+                //set the the linedata to machart
                 mChart.setData(data);
+                //reload the data if the datachaged
                 mChart.notifyDataSetChanged();
                 mChart.invalidate();
-
-
             }
         });
 
-
-
-
-
-
+      //return this view
 
         return fragmentView;
     }
-
+  //Difine the inner class
+    //Show the product name at the top of axis
     public class MyXAxisFormatter implements IAxisValueFormatter {
         public String[] mValues;
         public MyXAxisFormatter(String[] mValues){
             this.mValues=mValues;
-
         }
 
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
-            Log.d("dataset",value+" ");
+//            Log.d("dataset",value+" ");
             if(mValues.length==1){
                 return mValues[0];
             }

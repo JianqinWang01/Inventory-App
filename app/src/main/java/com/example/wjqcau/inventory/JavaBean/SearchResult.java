@@ -2,6 +2,7 @@ package com.example.wjqcau.inventory.JavaBean;
 
 /**
  * @author wjq
+ * Date created: 2019-03-03
  * This Mainly hold the information for searched result
  * This is simplified product class
  * This class used in search fragment

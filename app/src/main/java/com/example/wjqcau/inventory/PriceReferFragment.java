@@ -35,6 +35,8 @@ import java.util.ArrayList;
 
 
 /**
+ * @author wjqcau
+ * Date created: 2019-04-11
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link PriceReferFragment.OnFragmentInteractionListener} interface
@@ -53,9 +55,13 @@ public class PriceReferFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    //Declare the product arraylist
     private ArrayList<RefProduct> refProducts;
+    //declare the recyclerview
     RecyclerView refRecyclerView;
+    //declare the product name arraylis which will be used in the spinner
     private ArrayList<String> productNames;
+    //Decalre spinner and dialouge
     private ProgressDialog dialog;
     private Spinner spinner;
 
@@ -90,11 +96,14 @@ public class PriceReferFragment extends Fragment {
         }
         refProducts=new ArrayList<>();
         productNames=new ArrayList<>();
+        //Populate the products from database
         DatabaseHandler db=new DatabaseHandler(getContext());
         productNames=db.getAllProductNames();
         db.close();
+        //populate the dialogue
         dialog=new ProgressDialog(getContext());
         dialog.setMessage("Please waiting...");
+        //Invisible the AddCategory Image
         MainActivity.addCategoryImage.setVisibility(View.INVISIBLE);
     }
 
@@ -105,37 +114,44 @@ public class PriceReferFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_price_refer, container, false);
 
 
-       // final TextView showJosonText=view.findViewById(R.id.walmartContent);
+       // Get the spinner from the id in the view
          spinner=view.findViewById(R.id.productNameSpinner);
+         //Define the spinner adapter for the spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, productNames);
+        //set the spinner layout with the simple drop down item
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //set the spinner adapater
         spinner.setAdapter(dataAdapter);
+        //get the recyclerview
         refRecyclerView=view.findViewById(R.id.refRecyclerView);
-
+        //Get the button in the view accroding the id
         Button GrabJoson=view.findViewById(R.id.getJsonBut);
-
+        //set the button click event
         GrabJoson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Step 1: clear the product arraylist
                 refProducts.clear();
+                //show the progress dialogue
                 dialog.show();
+                //call the method to grab the data from walmart
               GrabData();
 
             }
         });
 
-
-
-
         return view;
     }
 
-    //Initial the Arraylist
+    // Grab the Json from Warlmart api and populate the product arraylist Initial the Arraylist
     public void GrabData(){
+        //set the request url
         String url=Config.WalmartString+spinner.getSelectedItem().toString()+Config.WalmartKey;
        // Log.d("URLoutput",url);
+        //Using volley to grab the json
         RequestQueue requestQueue=Volley.newRequestQueue(getContext());
+        //Define the jsonobject
         JsonObjectRequest objectRequest=new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -144,23 +160,31 @@ public class PriceReferFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try{
+                            //Get the json array
                             // String showString="";
                             JSONArray jsonArray=response.getJSONArray("items");
+                            //For loop to get each refprice and add them to the arraylist
                             for(int i=0;i<jsonArray.length();i++){
-
+                               //Get the json object of each item
                                 JSONObject productItem=jsonArray.getJSONObject(i);
+                                //Get each value in the productItem
                                 String productName=productItem.getString("name");
                                 String productPrice=productItem.getString("salePrice");
                                 String imageURl=productItem.getString("thumbnailImage");
                                 String cateName=productItem.getString("categoryPath");
                                 //showString+=productName+";"+productPrice+"\n"+imageURl+"\n";
+                                //Populate one refproduct object and add it to the array
                                 refProducts.add(new RefProduct(productName,productPrice,
                                         imageURl,cateName));
                             }
+                            //Declare the dapater
                             CustomRefPriceAdapter adapter=new CustomRefPriceAdapter(getContext(),refProducts);
+                            //Set the adapater to the recylceriew
                             refRecyclerView.setAdapter(adapter);
+                            //Set the layout of the recyclerview
                             refRecyclerView.setHasFixedSize(true);
                             refRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+                           //dismiss the progress dialogue
                             dialog.dismiss();
 
                             //showJosonText.setText(showString);

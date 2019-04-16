@@ -37,6 +37,8 @@ import static android.app.Activity.RESULT_OK;
 
 
 /**
+ * @author wjqcau
+ * Date created: 2019-04-12
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link SearchFragment.OnFragmentInteractionListener} interface
@@ -55,11 +57,12 @@ public class SearchFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    //Declare the adapter
     private CustomSearchRecyclerAdapter adapter;
+    //Decare the arraylist for origin data
     private ArrayList<SearchResult> originLists;
     SearchView searchView;
     public static final int VOICE_REQUEST_CODE=20;
-
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -101,19 +104,23 @@ public class SearchFragment extends Fragment {
       // MainActivity.actionBar.hide();
        //Layout floatView=view.findViewById(R.id.floatingView);
          searchView=(SearchView)view.findViewById(R.id.searchAction);
+         //set the serchview icon and it's default configuration
         searchView.setIconifiedByDefault(false);
        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
-
+       //Define the recyclerview
         RecyclerView recyclerView=view.findViewById(R.id.searchProductRecyclerView);
+        //Set the recyclerview layout
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        //Get the produt list in the database
         DatabaseHandler db=new DatabaseHandler(getContext());
         originLists=db.getProductSearchResult();
+        //set the adapter to the recyclerview
         adapter=new CustomSearchRecyclerAdapter(getContext(),originLists);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
+         //set the search view the event
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -122,34 +129,26 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-
+               //use the adapter to call the fileter
                 adapter.getFilter().filter(s);
                 return false;
             }
         });
-
+        //get the voice iamgeview
         ImageView voiceActionImage=view.findViewById(R.id.VoiceIcon);
+        //Set the click event
         voiceActionImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Log.d("VoiceRun","hello");
+              //  Log.d("VoiceRun","hello");
+                //Define the intent
                 Intent intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                //Put the value to the intent
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getContext().getPackageName());
-//
-//                speechRecognizer.startListening(intent);
-              //  intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,Locale.getdefault);
-
-
-
-                  //startActivity(intent);
-               // if(intent.resolveActivity(getContext().getPackageManager()) != null){
+               //strart the intent from the activity
                     startActivityForResult(intent,VOICE_REQUEST_CODE);
-//                }
-//                else{
-//                    Toast.makeText(getContext(),"There is no voice driver",Toast.LENGTH_LONG).show();
-//                }
 
             }
         });
@@ -160,16 +159,16 @@ public class SearchFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("VoiceRun","hello2");
-
+      //  Log.d("VoiceRun","hello2");
 
         switch (requestCode){
-
+         //if the request is sent by the voice recognizer intent
             case VOICE_REQUEST_CODE:
                 if(resultCode==RESULT_OK&&data!=null){
-                    Log.d("VoiceRun","hello2");
-
+                   // Log.d("VoiceRun","hello2");
+             // set the result from the recognizer result
              ArrayList<String> result =  data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+             //invoke the searchview to call search again
               searchView.setQuery(result.get(0),true);
                 }
                 break;

@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 /**
  * @author wjq
+ * * Date created: 2019-03-03
  * Mainly descript the products under a certain category
  */
 public class Product implements Parcelable {

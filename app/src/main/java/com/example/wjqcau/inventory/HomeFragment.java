@@ -37,13 +37,19 @@ public class HomeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+   //Declare arraylist to hold categories
     ArrayList<ProductCategory> categories;
+    //delcare dialogue to show the add category
     Dialog addCateDialog;
+    //declare button in the add category dialogue
     Button addCateButton;
+    //declare text input in the add category dialogue
     EditText addCateInput;
+    //The "X" image used to colse the dialogue
     ImageView closeImage;
+    //Declare the category adapter
      CategoryProductAdapter adapter;
+     //Decalre the frgmentmanager object which is reused in other fragment
     public static FragmentManager fm;
     public static FragmentTransaction transaction;
 
@@ -85,12 +91,14 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        //populate the categories from database
         categories=new ArrayList<>();
+        //populate the addCategorydialogue
         addCateDialog=new Dialog(getContext());
-
         //Toast.makeText(getApplicationContext(),"hello",Toast.LENGTH_SHORT).show();
         addCateDialog.setContentView(R.layout.addcategory);
         addCateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //populate the framgment manager
         fm=getFragmentManager();
 
     }
@@ -98,21 +106,21 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+       //Toggle the addcategoryiamge to visible
         MainActivity.addCategoryImage.setVisibility(View.VISIBLE);
+        //show the actionbar
         MainActivity.actionBar.show();
         // Inflate the layout for this fragment
        View view=inflater.inflate(R.layout.fragment_home, container, false);
+       //Define the recyclevier for category
         final RecyclerView recyclerViewCatetory=view.findViewById(R.id.category_item_recycleView);
+        //call the method to populat the category arraylist
          getCategoriesFromDB();
-
-//        for (ProductCategory category:categories) {
-//          System.out.println("IDS:"+category.getId()+" title"+category.getTitle());
-//           for(Product product:category.getProductList()){
-//               System.out.println("ProdId:"+product.getId()+" productPrice:"+product.getPrice()+" cateId:"+product.getCategoryID());
-//           }
-//        }
+         //populate the adapter
          adapter=new CategoryProductAdapter(getContext(),categories);
+         //set the adapter
         recyclerViewCatetory.setAdapter(adapter);
+        //set the recyclerview layout
         recyclerViewCatetory.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         //recyclerViewCatetory.setHasFixedSize(true);
         /**
@@ -138,12 +146,14 @@ public class HomeFragment extends Fragment {
         addCateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               // step 1:get title and insert into the database
                 DatabaseHandler db=new DatabaseHandler(getContext());
                 db.addCatetory(addCateInput.getText().toString());
                 db.close();
                // getCategoriesFromDB();
-
+               //refresh the data
                 adapter.notifyDataSetChanged();
+                //refresh all the framework
                 transaction=fm.beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.content,new HomeFragment());
@@ -158,6 +168,7 @@ public class HomeFragment extends Fragment {
        MainActivity.addCategoryImage.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+              //show the add category dialogue
                addCateDialog.show();
            }
        });
@@ -166,18 +177,8 @@ public class HomeFragment extends Fragment {
 
 
 
-
+  //method mainly populate the category arraylist from the database
    public void getCategoriesFromDB() {
-//       for (int i = 1; i <= 5; i++) {
-//
-//           ArrayList<Product> prodList = new ArrayList<>();
-//           for (int j = 1; j <= 5; j++) {
-//
-//               prodList.add(new Product("product" + j, "price" + j,"amount "+j, R.drawable.chicken));
-//
-//           }
-//           categories.add(new ProductCategory("title" + i, prodList));
-//       }
        DatabaseHandler db=new DatabaseHandler(getContext());
        categories=db.getAllCategories();
        db.close();

@@ -85,10 +85,15 @@ public class ContactFragment extends Fragment {
         contactListView=(ListView)view.findViewById(R.id.contact_listView);
         //Declare a arraylist to store the list of the items
         final ArrayList<ContactItem> contactItems=new ArrayList<>();
+        //add the phone item
         contactItems.add(new ContactItem(R.string.contact_tel,R.drawable.ic_phone_contact_24dp));
+        //add the SMS item
         contactItems.add(new ContactItem(R.string.contact_SMS,R.drawable.ic_message_contact_24dp));
+        //Add the email item
         contactItems.add(new ContactItem(R.string.contact_email,R.drawable.ic_email_contact_24dp));
+        //Add the location item
         contactItems.add(new ContactItem(R.string.contact_location,R.drawable.ic_location_contact_24dp));
+        //add the web item
         contactItems.add(new ContactItem(R.string.contact_website,R.drawable.ic_web_contact_24dp));//
         //Declare a CustomerAdapter adapter
         CustomerAdapter adapter=new CustomerAdapter(getContext(),contactItems);
@@ -186,10 +191,10 @@ public class ContactFragment extends Fragment {
         return view;
     }
 
-    //Declare a cumstomerAdapter class
+    //Declare a cumstomerAdapter class which is used for show the list view:
     public class CustomerAdapter extends ArrayAdapter<ContactItem> {
 
-
+       //Constructor to populate the properties
         public CustomerAdapter(@NonNull Context context, @NonNull ArrayList<ContactItem> items) {
             super(context, 0, items);
         }
@@ -198,17 +203,19 @@ public class ContactFragment extends Fragment {
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             if(convertView==null){
+                //Get the view from the layout: contact _item.xml
                 convertView=LayoutInflater.from(getContext()).inflate(R.layout.contact_item,parent,false);
             }
+            //Get the textview for each item
             TextView itemName=convertView.findViewById(R.id.contact_item_text);
+            //Define and populate the contact item object
             ContactItem item=getItem(position);
+            //Set hte itemname
             itemName.setText(item.getItemTitle());
-
-
+            //Get the imageview from the view
             ImageView imageView=convertView.findViewById(R.id.contact_item_iamge);
+            //Set the image icon
             imageView.setImageResource(item.getImageID());
-
-
             return convertView;
         }
     }

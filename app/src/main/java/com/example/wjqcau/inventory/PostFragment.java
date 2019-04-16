@@ -73,15 +73,15 @@ public class PostFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
+       //populate the all the product arrraylist from db
         DatabaseHandler db=new DatabaseHandler(getContext());
-
         products=db.getAllProducts();
         db.close();
-
-
+        //The following codes mainly use the multiple thread
+       //Limit the runtime follow the policy
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        //set the add category image visible
         MainActivity.addCategoryImage.setVisibility(View.INVISIBLE);
     }
 
@@ -90,21 +90,16 @@ public class PostFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        View view=inflater.inflate(R.layout.fragment_post, container, false);
-
-
-
-
+       //populate the recyclerview from the layout id
        postRecyclerView=view.findViewById(R.id.postProductRecyclerView);
+       //Define the adapter
        PostProductAdapter adapter=new PostProductAdapter(getContext(),products);
+       //set the adapter
         postRecyclerView.setAdapter(adapter);
+        //set the recyclerview layout
         postRecyclerView.setHasFixedSize(true);
         postRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
       // dialog.show();
-
-
-
-
-
         return view;
     }
 
