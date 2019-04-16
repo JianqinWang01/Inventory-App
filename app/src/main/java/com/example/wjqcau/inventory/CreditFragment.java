@@ -72,49 +72,69 @@ public class CreditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+      //Get the CreditFragment View
        View view=inflater.inflate(R.layout.fragment_credit, container, false);
+       //Get the logoView which hold the logo
         ImageView logoView=view.findViewById(R.id.creditsIV);
+        //Get the screen size of the current screen, it will be: Portain, Landscape
         int screenSize = getResources().getConfiguration().screenLayout &
                 SCREENLAYOUT_SIZE_MASK;
+        //Judge if the screen is current on landscape, set the logo with the big size
         switch(screenSize) {
             case SCREENLAYOUT_SIZE_XLARGE:
+                //Reset the logo with big size, width and height
                logoView.getLayoutParams().width=600;
                logoView.getLayoutParams().height=600;
+               //refresh the Logo in the view
                logoView.requestLayout();
                 break;
 
         }
-
+       //Define the viewpager using the id in the Fragment_Credit.xml
         ViewPager creditViewPager=view.findViewById(R.id.credits_viewpager);
+        //Define the viewpager adapter object
         CustomAdpter adpter=new CustomAdpter(getChildFragmentManager());
+        //Set the adapter
         creditViewPager.setAdapter(adpter);
+        //Set the viewpager with the Depth animation
         creditViewPager.setPageTransformer(true,new CreditDepthPageTransformer());
 
         return view;
     }
-    public class CustomAdpter extends FragmentPagerAdapter{
 
+    /**
+     * This inner class is the customerize viewpager adapter
+     */
+    public class CustomAdpter extends FragmentPagerAdapter{
+        //define the Constructor
         public CustomAdpter(FragmentManager fm) {
             super(fm);
         }
 
+        /**
+         * @param i : the #number of the each pager while swipe the screen,start index is 0
+         * @return  : the instance of the each fragment pager
+         */
         @Override
         public Fragment getItem(int i) {
             switch (i){
+                //Return the first pager with the value of iamge and icon
                 case 0: return CreditItemFragment.newInstance(getString(R.string.credits_header_image),getString(R.string.credits_image_description));
+                //Return the second pager with the value of API SDK
                 case 1: return CreditItemFragment.newInstance(getString(R.string.credits_header_api),getString(R.string.credits_api_description));
+                //Return the third pager with the value of iamge and icon
                 default:return CreditItemFragment.newInstance(getString(R.string.credits_header_github),getString(R.string.credits_github_description));
 
             }
 
-
-
         }
         @Override
         public int getCount() {
+            //Return the number of the pagers
             return 3;
         }
     }
+    //This class define the depth animation for swipe each pager
     public class CreditDepthPageTransformer implements ViewPager.PageTransformer {
         private static final float MIN_SCALE = 0.75f;
 

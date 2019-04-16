@@ -16,6 +16,8 @@ import static android.content.res.Configuration.SCREENLAYOUT_SIZE_XLARGE;
 
 
 /**
+ * @author wjqcau
+ * Mainly define the each view pager's style
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link CreditItemFragment.OnFragmentInteractionListener} interface
@@ -71,13 +73,16 @@ public class CreditItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_credit_item, container, false);
+       //Get the header and description textviews in the fragment_credit_item
         TextView header=view.findViewById(R.id.creditHeader);
         TextView description=view.findViewById(R.id.creditDescription);
-
+        //Get the size of the current screen
         int screenSize = getResources().getConfiguration().screenLayout &
                 SCREENLAYOUT_SIZE_MASK;
         switch(screenSize) {
+            //If the screen is the big size
             case SCREENLAYOUT_SIZE_XLARGE:
+                //Reset the font in the textview with the bigger font
                 description.setTextSize(24);
                 header.setTextSize(30);
                 break;

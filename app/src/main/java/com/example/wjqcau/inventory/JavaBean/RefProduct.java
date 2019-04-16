@@ -2,6 +2,7 @@ package com.example.wjqcau.inventory.JavaBean;
 
 /**
  * @author wjq
+ * Date created: 2019-03-03
  * Mainly hold the information which retrieved from Walmart API
  * This class used in PriceReferFragment
  */
