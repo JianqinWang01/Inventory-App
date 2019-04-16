@@ -10,6 +10,11 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import static android.content.res.Configuration.SCREENLAYOUT_SIZE_LARGE;
+import static android.content.res.Configuration.SCREENLAYOUT_SIZE_MASK;
+import static android.content.res.Configuration.SCREENLAYOUT_SIZE_XLARGE;
 
 
 /**
@@ -68,6 +73,17 @@ public class CreditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View view=inflater.inflate(R.layout.fragment_credit, container, false);
+        ImageView logoView=view.findViewById(R.id.creditsIV);
+        int screenSize = getResources().getConfiguration().screenLayout &
+                SCREENLAYOUT_SIZE_MASK;
+        switch(screenSize) {
+            case SCREENLAYOUT_SIZE_XLARGE:
+               logoView.getLayoutParams().width=600;
+               logoView.getLayoutParams().height=600;
+               logoView.requestLayout();
+                break;
+
+        }
 
         ViewPager creditViewPager=view.findViewById(R.id.credits_viewpager);
         CustomAdpter adpter=new CustomAdpter(getChildFragmentManager());
