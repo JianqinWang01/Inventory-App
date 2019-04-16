@@ -275,9 +275,11 @@ public class CategoryProductAdapter extends RecyclerView.Adapter<CategoryProduct
          */
 
      ProductItemAdapter adapter= new ProductItemAdapter(context,productList);
+
      //Define the recyclerview has fixed size
      categoryProductViewHolder.recyclerView.setHasFixedSize(true);
      //set the adapter to the nested product recyclyerview
+
      categoryProductViewHolder.recyclerView.setAdapter(adapter);
      //Set the recyclerview's layout with horizontally scrollable feature
      categoryProductViewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,

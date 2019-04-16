@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment {
         recyclerViewCatetory.setAdapter(adapter);
         //set the recyclerview layout
         recyclerViewCatetory.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        recyclerViewCatetory.setHasFixedSize(true);
+        //recyclerViewCatetory.setHasFixedSize(true);
         /**
          * Declare all the elements in the add Category Dialog
          */
