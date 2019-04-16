@@ -142,14 +142,14 @@ public class SearchFragment extends Fragment {
               //  intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,Locale.getdefault);
 
 
-                    Log.d("VoiceRun","hello1");
 
                   //startActivity(intent);
-                if(intent.resolveActivity(getActivity().getPackageManager()) != null)
-                {startActivityForResult(intent,VOICE_REQUEST_CODE);}
-                else{
-                    Toast.makeText(getContext(),"There is no voice driver",Toast.LENGTH_LONG).show();
-                }
+               // if(intent.resolveActivity(getContext().getPackageManager()) != null){
+                    startActivityForResult(intent,VOICE_REQUEST_CODE);
+//                }
+//                else{
+//                    Toast.makeText(getContext(),"There is no voice driver",Toast.LENGTH_LONG).show();
+//                }
 
             }
         });

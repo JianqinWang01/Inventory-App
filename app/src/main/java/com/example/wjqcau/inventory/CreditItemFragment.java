@@ -10,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import static android.content.res.Configuration.SCREENLAYOUT_SIZE_LARGE;
+import static android.content.res.Configuration.SCREENLAYOUT_SIZE_MASK;
+import static android.content.res.Configuration.SCREENLAYOUT_SIZE_XLARGE;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,9 +71,19 @@ public class CreditItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_credit_item, container, false);
-
         TextView header=view.findViewById(R.id.creditHeader);
         TextView description=view.findViewById(R.id.creditDescription);
+
+        int screenSize = getResources().getConfiguration().screenLayout &
+                SCREENLAYOUT_SIZE_MASK;
+        switch(screenSize) {
+            case SCREENLAYOUT_SIZE_XLARGE:
+                description.setTextSize(24);
+                header.setTextSize(30);
+                break;
+
+        }
+
        if(mParam1!=null) header.setText(mParam1);
        if(mParam2!=null) description.setText(Html.fromHtml(mParam2));
 
