@@ -2,6 +2,7 @@ package com.example.wjqcau.inventory.JavaBean;
 
 /**
  * @author wjq
+ * Date created: 2019-03-03
  * @description Used in contact fragment, for each contact including title and icon
  */
 public class ContactItem {

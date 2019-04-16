@@ -54,6 +54,8 @@ import static android.app.Activity.RESULT_OK;
 
 
 /**
+ * @author wjqcau
+ * Date created: 2019-04-10
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link UpdateProductFragment.OnFragmentInteractionListener} interface
@@ -62,14 +64,17 @@ import static android.app.Activity.RESULT_OK;
  * create an instance of this fragment.
  */
 public class UpdateProductFragment extends Fragment {
-
+    //Decare the Fragmentmanager
     FragmentManager fm;
+    //Declare the edittext for user to input the price,amount,product name
     EditText priceInput;
     EditText amountInput;
     EditText nameInput;
+    //declare the image url for remote url
     String ImageURL="";
+    //declare a spinner
     Spinner unitSpinner;
-
+    //declare the spinner list
     List<String> spinerList;
     //Define variables for take photos
     private  int productMaxId;
@@ -81,6 +86,7 @@ public class UpdateProductFragment extends Fragment {
     ImageView showImage;
     private static Intent i;
     ImageView produtImage;
+    //declare the sharedpreference
     SharedPreferences settingPref;
 
 
@@ -137,76 +143,91 @@ public class UpdateProductFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_update_product, container, false);
+        //get the imageview
         produtImage=view.findViewById(R.id.updateProductImage);
+        //get the button
         Button takePhotoButton=view.findViewById(R.id.takePhotoButton);
+        //inflator the updatebutton
         Button updateProductButton=view.findViewById(R.id.updateProductButton);
+        //inflate the editinput text
         nameInput=view.findViewById(R.id.updateNameInput);
          priceInput=view.findViewById(R.id.updatePriceInput);
         amountInput=view.findViewById(R.id.updateAmountInput);
-
         spinerList.clear();
 
 
-        //add spinner
+        //add spinner for the product unit
 
         if(settingPref.getString("unitkey","lb")!=null){
+            //get the unit from the sharedprefence file
             spinerList.add(settingPref.getString("unitkey","lb"));
         }else{
+            //else give the defalut value
             spinerList.add("lb");
         }
-
-
         spinerList.add("PKG");
+        //get the spinner from the view
         unitSpinner=(Spinner) view.findViewById(R.id.updateseclectUnit);
+        //define the adapter
           ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, spinerList);
+          //set the adapter style
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //set the spinner with the adapter
         unitSpinner.setAdapter(dataAdapter);
 
         if(mParam1!=null){
+            //grab the information from the pacel of the product
             priceInput.setText(mParam1.getPrice());
             amountInput.setText(mParam1.getAmount());
             nameInput.setText(mParam1.getName());
             if(mParam1.getUnit().equals("PKG")){
             unitSpinner.setSelection(1);}
             else unitSpinner.setSelection(0);
+            //load the old picture
             Picasso.with(getContext())
                     .load(mParam1.getImageUrl()).memoryPolicy(MemoryPolicy.NO_CACHE).
                     networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.chicken).
                     into(produtImage);
-
+           //when user click the take photo button
           takePhotoButton.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
+                  //Create the url
                   ImageURL="https://jwang.scweb.ca/PhotoServer/images/"+mParam1.getId()+".jpg";
-
                   StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                   StrictMode.setVmPolicy(builder.build());
+                  //define the intent to take photo
                   i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                   image_name=mParam1.getId()+".jpg";
                   //Create local file Uri
                   file=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+
                           File.separator+image_name);
                   file_uri= Uri.fromFile(file);
-                  Log.w("FileUri",file_uri.toString());
+                  //Log.w("FileUri",file_uri.toString());
+                  //put the data to the intent
                   i.putExtra(MediaStore.EXTRA_OUTPUT,file_uri);
+                  //start the activity to run the intent
                   startActivityForResult(i,CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
 
               }
           });
-
+          //Click the updatebutton
           updateProductButton.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
+                  //Step 1: update the product in the database
                   DatabaseHandler db=new DatabaseHandler(getContext());
                   db.updateProduct(nameInput.getText().toString(),
                           priceInput.getText().toString(),
                           amountInput.getText().toString(),
                          unitSpinner.getSelectedItem().toString(),mParam1.getId());
                   db.close();
+                  //Step 2: clear the input edittext in the interface
                   nameInput.setText("");
                   priceInput.setText("");
                   amountInput.setText("");
+                  //Step 3: transition to home screen
                   FragmentTransaction transaction=fm.beginTransaction();
                   transaction.addToBackStack(null);
                   transaction.replace(R.id.content,new HomeFragment());
@@ -214,9 +235,6 @@ public class UpdateProductFragment extends Fragment {
 
               }
           });
-
-
-
 
         }
         return view;
@@ -231,22 +249,25 @@ public class UpdateProductFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //if the request is sent by camera
         if(requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode== RESULT_OK) {
             //Toast.makeText(getContext(), "No", Toast.LENGTH_LONG).show();
             Log.d("Result_call","enterResult");
             // new Encode_Image().execute();
-
+          //Reuqest the permission
             if(ContextCompat.checkSelfPermission(getActivity(),
                     android.Manifest.permission.READ_EXTERNAL_STORAGE)
                     !=PackageManager.PERMISSION_GRANTED)
             {
+                //at first add product had run
               //because update absolutely second time
 
             }else{
-                Log.d("PermissionSecond","PermissionSecondTime");
-
+               // Log.d("PermissionSecond","PermissionSecondTime");
+               //Define the class and execute task
                 new Encode_Image().execute();
-                Log.d("LocalURL",file_uri.getPath());
+               // Log.d("LocalURL",file_uri.getPath());
+                //show the image back to the interface
                 Picasso.with(getContext())
                         .load("file://"+file_uri.getPath()).memoryPolicy(MemoryPolicy.NO_CACHE).
                         networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.chicken).
@@ -266,16 +287,19 @@ public class UpdateProductFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Log.d("BitMap",file_uri.getPath());
+            //Log.d("BitMap",file_uri.getPath());
+           //Define the bitmap from the the path
             bitmap = BitmapFactory.decodeFile(file_uri.getPath());
-            Log.d("BitMap",bitmap == null?"Empty":"Good");
-
+           // Log.d("BitMap",bitmap == null?"Empty":"Good");
 
             //showImage.setImageBitmap(bitmap);
             // Log.d("showError",file_uri.getPath());
+            //add the data to outputstream
             ByteArrayOutputStream stream=new ByteArrayOutputStream();
+            //Compress the data
             bitmap.compress(Bitmap.CompressFormat.JPEG,1,stream);
             byte[] array=stream.toByteArray();
+            //encoding the data with 64digits
             encoded_string=Base64.encodeToString(array,0);
             return null;
         }
@@ -283,17 +307,19 @@ public class UpdateProductFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+           //call the request
             makeRequest();
 
         }
     }
     private  void makeRequest(){
+       //define the request queue object
         RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+        //define the request object
         StringRequest request=new StringRequest(Request.Method.POST, Config.FILE_UPLOAD_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         //add method here
                     }
                 }, new Response.ErrorListener() {
@@ -304,13 +330,15 @@ public class UpdateProductFragment extends Fragment {
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                // return super.getParams();
+                // Define the hashmap
                 HashMap<String,String> map=new HashMap<>();
+                //put the hashmap with the encoded data and string
                 map.put("encoded_string",encoded_string);
                 map.put("image_name",image_name);
                 return  map;
             }
         };
+        //add the request to the requestquen
         requestQueue.add(request);
 
 
@@ -322,11 +350,6 @@ public class UpdateProductFragment extends Fragment {
 
 
     }
-
-
-
-
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
